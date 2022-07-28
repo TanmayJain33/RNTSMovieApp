@@ -4,15 +4,19 @@ import { createTheme } from '@shopify/restyle';
 const palette = {
    white: '#fff',
    black: '#000',
-   purple: '#5a31f4',
+   grey: '#333',
+   lightGrey: '#999',
+   magentaPrimary: '#e91e63',
 };
 
 const theme = createTheme({
    colors: {
       mainBackground: palette.white,
       darkText: palette.black,
-      primary: palette.purple,
+      primary: palette.magentaPrimary,
       blackBorder: palette.black,
+      activeIconColor: palette.grey,
+      inactiveIconColor: palette.lightGrey,
    },
    spacing: {
       s: 8,
@@ -30,6 +34,9 @@ const theme = createTheme({
    border: {
       borderWidth: 1,
       borderRadius: 5,
+   },
+   iconSize: {
+      normal: 22,
    },
    breakpoints: {
       phone: 0,
