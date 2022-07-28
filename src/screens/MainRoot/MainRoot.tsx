@@ -14,6 +14,7 @@ export default function MainRoot() {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
+        headerShown: false,
         tabBarActiveTintColor: theme.colors.activeIconColor,
         tabBarInactiveTintColor: theme.colors.inactiveIconColor,
       }}>

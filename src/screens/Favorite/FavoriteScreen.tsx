@@ -1,16 +1,15 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
 import Box from '../../atoms/Box/Box';
 import Text from '../../atoms/Text/Text';
 
 export default function FavoriteScreen() {
   return (
-    <Box flex={1} bg="mainBackground" style={styles.mainContainer}>
+    <Box
+      flex={1}
+      bg="mainBackground"
+      justifyContent="center"
+      alignItems="center">
       <Text variant="body">FavoriteScreen</Text>
     </Box>
   );
 }
-
-const styles = StyleSheet.create({
-  mainContainer: {flex: 1, justifyContent: 'center', alignItems: 'center'},
-});

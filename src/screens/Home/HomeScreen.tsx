@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList} from 'react-native';
 import Box from '../../atoms/Box/Box';
 import Text from '../../atoms/Text/Text';
+import MovieItem from '../../molecules/MovieItem/MovieItem';
 
 export default function HomeScreen() {
   const [loading, setLoading] = useState(true);
@@ -28,26 +29,31 @@ export default function HomeScreen() {
     fetchData();
   }, []);
 
+  console.log(popularMovies);
+
   const renderItem = ({item}: any) => {
     return (
-      <Box>
-        <Text key={item.id} variant="body">
-          {item.title}
-        </Text>
+      <Box alignItems="center" flex={1}>
+        <MovieItem item={item} />
       </Box>
     );
   };
 
   return (
-    <Box flex={1} bg="mainBackground" style={styles.mainContainer}>
+    <Box
+      flex={1}
+      bg="mainBackground"
+      justifyContent="center"
+      alignItems="center">
       {loading && <Text variant="body">HomeScreen</Text>}
       {popularMovies && (
-        <FlatList data={popularMovies} renderItem={renderItem} />
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={popularMovies}
+          renderItem={renderItem}
+        />
       )}
     </Box>
   );
 }
-
-const styles = StyleSheet.create({
-  mainContainer: {flex: 1, justifyContent: 'center', alignItems: 'center'},
-});
