@@ -22,10 +22,17 @@ const theme = createTheme({
       s: 8,
       sm: 10,
       m: 16,
+      ml: 20,
       l: 24,
       xl: 40,
    },
    textVariants: {
+      header: {
+         fontSize: 24,
+         fontWeight: 'bold',
+         lineHeight: 40,
+         color: 'darkText',
+      },
       body: {
          fontSize: 16,
          lineHeight: 24,

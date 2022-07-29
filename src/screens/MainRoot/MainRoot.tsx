@@ -3,10 +3,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../Home/HomeScreen';
 import FavoriteScreen from '../Favorite/FavoriteScreen';
 import SettingScreen from '../Setting/SettingScreen';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import theme from '../../styles/theme';
+import {Icon} from '../../atoms/Icon/Icon';
 
-Ionicons.loadFont().then();
 const Tab = createBottomTabNavigator();
 
 export default function MainRoot() {
@@ -24,7 +23,7 @@ export default function MainRoot() {
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({color}) => (
-            <Ionicons name="home" color={color} size={theme.iconSize.normal} />
+            <Icon title="home" size={theme.iconSize.normal} color={color} />
           ),
         }}
       />
@@ -34,7 +33,7 @@ export default function MainRoot() {
         options={{
           tabBarLabel: 'Favorite',
           tabBarIcon: ({color}) => (
-            <Ionicons name="heart" color={color} size={theme.iconSize.normal} />
+            <Icon title="heart" size={theme.iconSize.normal} color={color} />
           ),
         }}
       />
@@ -44,11 +43,7 @@ export default function MainRoot() {
         options={{
           tabBarLabel: 'Settings',
           tabBarIcon: ({color}) => (
-            <Ionicons
-              name="settings"
-              color={color}
-              size={theme.iconSize.normal}
-            />
+            <Icon title="settings" size={theme.iconSize.normal} color={color} />
           ),
         }}
       />

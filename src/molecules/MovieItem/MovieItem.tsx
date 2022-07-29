@@ -5,7 +5,7 @@ import {Image, StyleSheet} from 'react-native';
 
 export default function MovieItem({item}: any) {
   return (
-    <Box flexDirection="column" flexWrap="wrap" mr="sm">
+    <Box flexDirection="column">
       <Image
         style={styles.poster}
         source={{uri: 'https://image.tmdb.org/t/p/w342' + item.poster_path}}
