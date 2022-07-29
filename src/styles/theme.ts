@@ -13,12 +13,14 @@ const theme = createTheme({
    colors: {
       mainBackground: palette.white,
       darkText: palette.black,
+      darkColor: palette.black,
       primary: palette.magentaPrimary,
       blackBorder: palette.black,
       activeIconColor: palette.grey,
       inactiveIconColor: palette.lightGrey,
    },
    spacing: {
+      xs: 5,
       s: 8,
       sm: 10,
       m: 16,
@@ -36,6 +38,13 @@ const theme = createTheme({
       body: {
          fontSize: 16,
          lineHeight: 24,
+         color: 'darkText',
+      },
+      movieTitle: {
+         width: 150,
+         textAlign: 'center',
+         marginTop: 'xs',
+         fontSize: 16,
          color: 'darkText',
       },
    },
