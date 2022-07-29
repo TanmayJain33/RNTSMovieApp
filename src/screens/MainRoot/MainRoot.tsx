@@ -14,8 +14,13 @@ export default function MainRoot() {
       initialRouteName="Home"
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: theme.colors.activeIconColor,
-        tabBarInactiveTintColor: theme.colors.inactiveIconColor,
+        tabBarActiveTintColor: theme.colors.secondary,
+        tabBarInactiveTintColor: theme.colors.primary,
+        tabBarLabelStyle: {
+          fontSize: theme.textVariants.body.fontSize,
+          fontWeight: '700',
+          marginBottom: theme.spacing.xxs,
+        },
       }}>
       <Tab.Screen
         name="HomeScreen"

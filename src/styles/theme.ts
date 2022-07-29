@@ -6,20 +6,24 @@ const palette = {
    black: '#000',
    grey: '#333',
    lightGrey: '#999',
-   magentaPrimary: '#e91e63',
+   baseColor: '#151c26',
+   gold: '#F4C10F',
 };
 
 const theme = createTheme({
    colors: {
       mainBackground: palette.white,
+      whiteText: palette.white,
       darkText: palette.black,
       darkColor: palette.black,
-      primary: palette.magentaPrimary,
+      primary: palette.baseColor,
+      secondary: palette.gold,
       blackBorder: palette.black,
       activeIconColor: palette.grey,
       inactiveIconColor: palette.lightGrey,
    },
    spacing: {
+      xxs: 3,
       xs: 5,
       s: 8,
       sm: 10,
@@ -33,11 +37,12 @@ const theme = createTheme({
          fontSize: 24,
          fontWeight: 'bold',
          lineHeight: 40,
-         color: 'darkText',
+         color: 'whiteText',
       },
       body: {
-         fontSize: 16,
+         fontSize: 12,
          lineHeight: 24,
+         fontWeight: 'bold',
          color: 'darkText',
       },
       movieTitle: {

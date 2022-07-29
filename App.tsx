@@ -24,7 +24,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: theme.colors.mainBackground,
+    backgroundColor: theme.colors.primary,
     flex: 1,
   },
 });
