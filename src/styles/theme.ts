@@ -31,12 +31,18 @@ const theme = createTheme({
       ml: 20,
       l: 24,
       xl: 40,
+      lxx: 70,
    },
    textVariants: {
       header: {
          fontSize: 24,
          fontWeight: 'bold',
          lineHeight: 40,
+         color: 'whiteText',
+      },
+      subHeading:{
+         fontSize: 20,
+         fontWeight: 'bold',
          color: 'whiteText',
       },
       body: {
@@ -51,6 +57,12 @@ const theme = createTheme({
          marginTop: 'xs',
          fontSize: 16,
          color: 'darkText',
+      },
+      peopleTitle: {
+         fontSize: 12,
+         width: 70,
+         color: 'whiteText',
+         textAlign: 'center',
       },
    },
    border: {

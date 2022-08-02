@@ -38,8 +38,6 @@ export default function DiscoverMovies(props: any) {
     }
   };
 
-  console.log(imageList);
-
   return (
     <Box>
       {imageList.length > 0 ? (
@@ -47,6 +45,7 @@ export default function DiscoverMovies(props: any) {
           <ScrollView
             horizontal
             pagingEnabled
+            scrollEventThrottle={10}
             onScroll={onChange}
             showsHorizontalScrollIndicator={false}>
             {imageList.map((item: any, index: React.Key | null | undefined) => (
