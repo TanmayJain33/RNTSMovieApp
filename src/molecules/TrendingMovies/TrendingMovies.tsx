@@ -7,27 +7,29 @@ import {GET} from '../../services/API';
 import {Loader} from '../../atoms/Loader/Loader';
 import theme from '../../styles/theme';
 
-export default function MovieItem(props: any) {
+export default function TrendingMovies(props: any) {
   const [loading, setLoading] = useState(true);
-  const [popularMovies, setPopularMovies] = useState();
+  const [trendingMovies, setTrendingMovies] = useState();
 
   useEffect(() => {
-    const getPopularMovies = async () => {
-      const data = await GET(props.url);
-      setPopularMovies(data.results);
+    const getTrendingMovies = async () => {
+      const moviesData = await GET(props.url);
+      setTrendingMovies(moviesData.results);
       setLoading(false);
     };
-    getPopularMovies();
+    getTrendingMovies();
   }, [props.url]);
 
-  const displayPopularMovies = ({item}: any) => {
+  const displayTrendingMovies = ({item}: any) => {
     return (
       <TouchableOpacity style={styles.container}>
         <Image
           source={{uri: `${POSTER_IMAGE}${item.poster_path}`}}
           style={styles.poster}
         />
-        <Text variant="movieTitle">{item.title}</Text>
+        <Text variant="movieTitle" mt="sm">
+          {item.title}
+        </Text>
       </TouchableOpacity>
     );
   };
@@ -35,15 +37,18 @@ export default function MovieItem(props: any) {
   return (
     <Box>
       {loading ? (
-        <Loader size="large" color={theme.colors.darkColor} />
+        <Loader size="large" color={theme.colors.mainBackground} />
       ) : (
         <Box>
+          <Text variant="subHeading" mt="sm" mb="ml" ml="sm">
+            {props.title}
+          </Text>
           <FlatList
             keyExtractor={item => item.id}
-            data={popularMovies}
+            data={trendingMovies}
             horizontal
             showsHorizontalScrollIndicator={false}
-            renderItem={item => displayPopularMovies(item)}
+            renderItem={item => displayTrendingMovies(item)}
           />
         </Box>
       )}

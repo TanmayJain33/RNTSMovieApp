@@ -54,9 +54,8 @@ const theme = createTheme({
       movieTitle: {
          width: 150,
          textAlign: 'center',
-         marginTop: 'xs',
-         fontSize: 16,
-         color: 'darkText',
+         fontSize: 14,
+         color: 'whiteText',
       },
       peopleTitle: {
          fontSize: 12,

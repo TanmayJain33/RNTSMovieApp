@@ -1,7 +1,9 @@
 import React from 'react';
+import {ScrollView} from 'react-native';
 import Box from '../../atoms/Box/Box';
 import {Header} from '../../atoms/Header/Header';
 import DiscoverMovies from '../../molecules/DiscoverMovies/DiscoverMovies';
+import TrendingMovies from '../../molecules/TrendingMovies/TrendingMovies';
 import TrendingPeople from '../../molecules/TrendingPeople/TrendingPeople';
 import theme from '../../styles/theme';
 
@@ -20,8 +22,17 @@ export default function HomeScreen({navigation}: any) {
         iconColor={theme.colors.secondary}
         iconSize={theme.iconSize.normal}
       />
-      <DiscoverMovies navigation={navigation} url="/discover/movie" />
-      <TrendingPeople title="Trending People" url="/trending/person/week" />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Box mb="m">
+          <DiscoverMovies navigation={navigation} url="/discover/movie" />
+          <TrendingPeople title="Trending People" url="/trending/person/week" />
+          <TrendingMovies
+            title="Trending Movies"
+            url="/trending/movie/week"
+            navigation={navigation}
+          />
+        </Box>
+      </ScrollView>
     </Box>
   );
 }

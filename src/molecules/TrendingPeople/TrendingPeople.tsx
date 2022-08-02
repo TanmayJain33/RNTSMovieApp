@@ -21,8 +21,6 @@ export default function TrendingPeople(props: any) {
     getTrendingPeople();
   }, [props.url]);
 
-  console.log(peopleList);
-
   const displayTrendingPeople = ({item}: any) => {
     return (
       item.profile_path &&
@@ -45,7 +43,7 @@ export default function TrendingPeople(props: any) {
       {loading ? (
         <Loader size="large" color={theme.colors.mainBackground} />
       ) : (
-        <Box>
+        <Box mt="sm">
           <Text variant="subHeading" m="sm">
             {props.title}
           </Text>
