@@ -2,25 +2,22 @@
 import { createTheme } from '@shopify/restyle';
 
 const palette = {
-   white: '#fff',
+   white: '#FFF',
    black: '#000',
    grey: '#333',
    lightGrey: '#999',
-   baseColor: '#151c26',
+   baseColor: '#151C26',
    gold: '#F4C10F',
 };
 
 const theme = createTheme({
    colors: {
-      mainBackground: palette.white,
-      whiteText: palette.white,
-      darkText: palette.black,
+      whiteColor: palette.white,
       darkColor: palette.black,
       primary: palette.baseColor,
       secondary: palette.gold,
-      blackBorder: palette.black,
-      activeIconColor: palette.grey,
-      inactiveIconColor: palette.lightGrey,
+      greyColor: palette.grey,
+      lightGreyColor: palette.lightGrey,
    },
    spacing: {
       '-ml': -20,
@@ -34,63 +31,49 @@ const theme = createTheme({
       l: 24,
       xl: 40,
       lxx: 70,
+      CL: 150,
    },
    textVariants: {
-      header: {
+      mainHeading: {
          fontSize: 24,
          fontWeight: 'bold',
          lineHeight: 40,
-         color: 'whiteText',
+         color: 'whiteColor',
       },
       subHeading:{
          fontSize: 20,
          fontWeight: 'bold',
-         color: 'whiteText',
+         color: 'whiteColor',
       },
-      body: {
-         fontSize: 12,
-         lineHeight: 24,
+      headingSmall:{
+         fontSize: 16,
          fontWeight: 'bold',
-         color: 'darkText',
+         color: 'whiteColor',
       },
-      movieTitle: {
-         width: 150,
+      title_normal: {
          textAlign: 'center',
          fontSize: 14,
-         color: 'whiteText',
+         color: 'whiteColor',
       },
-      peopleTitle: {
+      title_sm: {
          fontSize: 12,
-         width: 70,
-         color: 'whiteText',
+         color: 'whiteColor',
          textAlign: 'center',
       },
-      detailsMovieTitle: {
-         textAlign: 'center',
-         fontSize: 20,
-         color: 'whiteText',
-      },
-      overview: {
+      text_normal: {
          textAlign: 'justify',
-         fontSize: 16,
-         color: 'whiteText',
-      },
-      details: {
-         color: 'secondary',
          fontSize: 15,
+         color: 'whiteColor',
+      },
+      text_normal_special: {
+         color: 'secondary',
+         fontSize: 14,
          fontWeight: 'bold',
       },
       genre: {
-         color: 'whiteText',
+         color: 'whiteColor',
          fontSize: 16,
       },
-   },
-   border: {
-      borderWidth: 1,
-      borderRadius: 5,
-   },
-   iconSize: {
-      normal: 22,
    },
    breakpoints: {
       phone: 0,

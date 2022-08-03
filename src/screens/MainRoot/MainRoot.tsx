@@ -17,7 +17,7 @@ export default function MainRoot() {
         tabBarActiveTintColor: theme.colors.secondary,
         tabBarInactiveTintColor: theme.colors.primary,
         tabBarLabelStyle: {
-          fontSize: theme.textVariants.body.fontSize,
+          fontSize: 12,
           fontWeight: '700',
           marginBottom: theme.spacing.xxs,
         },
@@ -28,7 +28,7 @@ export default function MainRoot() {
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({color}) => (
-            <Icon title="home" size={theme.iconSize.normal} color={color} />
+            <Icon title="home" size={theme.spacing.ml} color={color} />
           ),
         }}
       />
@@ -38,7 +38,7 @@ export default function MainRoot() {
         options={{
           tabBarLabel: 'Favorite',
           tabBarIcon: ({color}) => (
-            <Icon title="heart" size={theme.iconSize.normal} color={color} />
+            <Icon title="heart" size={theme.spacing.ml} color={color} />
           ),
         }}
       />
@@ -48,7 +48,7 @@ export default function MainRoot() {
         options={{
           tabBarLabel: 'Settings',
           tabBarIcon: ({color}) => (
-            <Icon title="settings" size={theme.iconSize.normal} color={color} />
+            <Icon title="settings" size={theme.spacing.ml} color={color} />
           ),
         }}
       />

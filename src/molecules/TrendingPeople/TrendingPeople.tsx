@@ -15,7 +15,7 @@ export default function TrendingPeople(props: any) {
   useEffect(() => {
     const getTrendingPeople = async () => {
       const peopleData = await GET(props.url);
-      setPeopleList(peopleData.results);
+      setPeopleList(peopleData.results || peopleData.cast);
       setLoading(false);
     };
     getTrendingPeople();
@@ -25,14 +25,16 @@ export default function TrendingPeople(props: any) {
     return (
       item.profile_path &&
       item.name && (
-        <Box m="sm">
+        <Box mx="sm" my="xs">
           <Image
             style={styles.trendingPeopleImage}
             source={{uri: `${IMAGE_POSTER_URL}${item.profile_path}`}}
           />
-          <Text variant="peopleTitle" mt="sm">
-            {capitalizeName(item.name)}
-          </Text>
+          <Box width={theme.spacing.lxx}>
+            <Text variant="title_sm" mt="sm">
+              {capitalizeName(item.name)}
+            </Text>
+          </Box>
         </Box>
       )
     );
@@ -41,7 +43,7 @@ export default function TrendingPeople(props: any) {
   return (
     <Box>
       {loading ? (
-        <Loader size="large" color={theme.colors.mainBackground} />
+        <Loader size="large" color={theme.colors.whiteColor} />
       ) : (
         <Box mt="sm">
           <Text variant="subHeading" m="sm">

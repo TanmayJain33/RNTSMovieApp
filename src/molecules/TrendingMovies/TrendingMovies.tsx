@@ -27,9 +27,11 @@ export default function TrendingMovies(props: any) {
           source={{uri: `${POSTER_IMAGE}${item.poster_path}`}}
           style={styles.poster}
         />
-        <Text variant="movieTitle" mt="sm">
-          {item.title}
-        </Text>
+        <Box width={theme.spacing.CL}>
+          <Text variant="title_normal" mt="sm">
+            {item.title}
+          </Text>
+        </Box>
       </TouchableOpacity>
     );
   };
@@ -37,10 +39,10 @@ export default function TrendingMovies(props: any) {
   return (
     <Box>
       {loading ? (
-        <Loader size="large" color={theme.colors.mainBackground} />
+        <Loader size="large" color={theme.colors.whiteColor} />
       ) : (
         <Box>
-          <Text variant="subHeading" mt="sm" mb="ml" ml="sm">
+          <Text variant="subHeading" m="sm">
             {props.title}
           </Text>
           <FlatList

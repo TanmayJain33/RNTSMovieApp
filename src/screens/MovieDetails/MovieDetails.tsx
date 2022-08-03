@@ -17,6 +17,7 @@ import theme from '../../styles/theme';
 import {screenWidth} from '../../utilities/Constants';
 import TrendingPeople from '../../molecules/TrendingPeople/TrendingPeople';
 import TrendingMovies from '../../molecules/TrendingMovies/TrendingMovies';
+import {Header} from '../../atoms/Header/Header';
 
 export default function MovieDetails() {
   const route = useRoute();
@@ -38,7 +39,7 @@ export default function MovieDetails() {
       <Box
         borderWidth={1}
         borderRadius={5}
-        borderColor="whiteText"
+        borderColor="whiteColor"
         px="sm"
         py="xs"
         mx="sm">
@@ -48,76 +49,97 @@ export default function MovieDetails() {
   };
 
   return (
-    <ScrollView
-      style={styles.mainContainer}
-      showsVerticalScrollIndicator={false}>
-      {loading ? (
-        <Loader size="large" color={theme.colors.mainBackground} />
-      ) : (
-        <Box>
+    <Box flex={1} bg="primary">
+      <Header
+        title={details.original_title}
+        alignItems="center"
+        flexDirection="row"
+        mb="sm"
+        mx="ml"
+        iconLeft={true}
+        iconName="arrow-back"
+        iconColor={theme.colors.secondary}
+        iconSize={theme.spacing.ml}
+      />
+      <ScrollView
+        style={styles.mainContainer}
+        showsVerticalScrollIndicator={false}>
+        {loading ? (
+          <Loader size="large" color={theme.colors.whiteColor} />
+        ) : (
           <Box>
-            <Image
-              source={{uri: `${IMAGE_POSTER_URL}${details.backdrop_path}`}}
-              style={styles.posterImage}
-            />
+            <Box>
+              <Image
+                source={{uri: `${IMAGE_POSTER_URL}${details.backdrop_path}`}}
+                style={styles.posterImage}
+              />
+            </Box>
+            {details.homepage ? (
+              <Box
+                bg="secondary"
+                borderRadius={100}
+                p="sm"
+                ml="s"
+                mt="-ml"
+                alignItems="center"
+                width={45}>
+                <TouchableOpacity
+                  onPress={() => {
+                    Linking.openURL(details.homepage);
+                  }}>
+                  <Icon
+                    title="md-link-sharp"
+                    color={theme.colors.whiteColor}
+                    size={22}
+                  />
+                </TouchableOpacity>
+              </Box>
+            ) : null}
+            <Box>
+              <Text ml="s" variant="subHeading" mt="xs">
+                Overview
+              </Text>
+              <Text variant="text_normal" mx="ml" mb="sm" mt="xxs">
+                {details.overview}
+              </Text>
+              <Box flexDirection="row" justifyContent="space-between" m="sm">
+                <Box>
+                  <Text variant="headingSmall">Budget</Text>
+                  <Text variant="text_normal_special" mt="xxs">
+                    $ {details.budget}
+                  </Text>
+                </Box>
+                <Box>
+                  <Text variant="headingSmall">Duration</Text>
+                  <Text variant="text_normal_special" mt="xxs">
+                    {details.runtime} min.
+                  </Text>
+                </Box>
+                <Box>
+                  <Text variant="headingSmall">Release Date</Text>
+                  <Text variant="text_normal_special" mt="xxs">
+                    {details.release_date}
+                  </Text>
+                </Box>
+              </Box>
+              <Text variant="subHeading" mt="xxs" ml="sm">
+                Genre
+              </Text>
+              <Box mt="s" flexDirection="row">
+                <ScrollView showsHorizontalScrollIndicator={false} horizontal>
+                  {getGenre()}
+                </ScrollView>
+              </Box>
+              <TrendingPeople title="Cast" url={`/movie/${movieId}/credits`} />
+              <TrendingMovies
+                title="Similar Movies"
+                url={`/movie/${movieId}/similar`}
+              />
+            </Box>
           </Box>
-          <Text variant="detailsMovieTitle" mt="-xl">
-            {details.original_title}
-          </Text>
-          {details.homepage ? (
-            <Box
-              bg="secondary"
-              borderRadius={100}
-              p="sm"
-              width={45}
-              ml="ml"
-              mt="-ml">
-              <TouchableOpacity
-                onPress={() => {
-                  Linking.openURL(details.homepage);
-                }}>
-                <Icon
-                  title="link-outline"
-                  color={theme.colors.mainBackground}
-                  size={22}
-                />
-              </TouchableOpacity>
-            </Box>
-          ) : null}
-          <Text variant="subHeading">OVERVIEW</Text>
-          <Text variant="overview" mx="sm">
-            {details.overview}
-          </Text>
-          <Box flexDirection="row" justifyContent="space-between" my="ml">
-            <Box>
-              <Text variant="subHeading">BUDGET</Text>
-              <Text variant="details" ml="sm">
-                $ {details.budget}
-              </Text>
-            </Box>
-            <Box>
-              <Text variant="subHeading">DURATION</Text>
-              <Text variant="details" ml="sm">
-                {details.runtime} min.
-              </Text>
-            </Box>
-            <Box>
-              <Text variant="subHeading">RELEASE DATE</Text>
-              <Text variant="details" ml="sm">
-                {details.release_date}
-              </Text>
-            </Box>
-          </Box>
-          <Text variant="subHeading">GENRE</Text>
-          <Box flexDirection="row">{getGenre()}</Box>
-          <TrendingPeople title="CAST" url={`/movie/${movieId}/credits`} />
-          <TrendingMovies
-            title="SIMILAR MOVIES"
-            url={`/movie/${movieId}/similar`}
-          />
-        </Box>
-      )}
-    </ScrollView>
+        )}
+      </ScrollView>
+    </Box>
   );
 }
 

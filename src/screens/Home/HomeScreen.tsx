@@ -20,7 +20,7 @@ export default function HomeScreen() {
         icon={true}
         iconName="search-outline"
         iconColor={theme.colors.secondary}
-        iconSize={theme.iconSize.normal}
+        iconSize={theme.spacing.ml}
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Box mb="m">

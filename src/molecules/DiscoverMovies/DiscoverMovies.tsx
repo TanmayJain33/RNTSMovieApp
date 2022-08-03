@@ -81,7 +81,7 @@ export default function DiscoverMovies(props: any) {
                 mx="sm"
                 mb="s"
                 key={k}
-                bg={k === active ? 'secondary' : 'mainBackground'}
+                bg={k === active ? 'secondary' : 'whiteColor'}
                 width={theme.spacing.s}
                 height={theme.spacing.s}
                 borderRadius={theme.spacing.s}
@@ -90,7 +90,7 @@ export default function DiscoverMovies(props: any) {
           </Box>
         </>
       ) : (
-        <Loader size="large" color={theme.colors.mainBackground} />
+        <Loader size="large" color={theme.colors.whiteColor} />
       )}
     </Box>
   );
