@@ -8,6 +8,7 @@ const palette = {
    lightGrey: '#999',
    baseColor: '#151C26',
    gold: '#F4C10F',
+   red: '#F13939',
 };
 
 const theme = createTheme({
@@ -18,6 +19,7 @@ const theme = createTheme({
       secondary: palette.gold,
       greyColor: palette.grey,
       lightGreyColor: palette.lightGrey,
+      ratingColor: palette.red,
    },
    spacing: {
       '-ml': -20,
@@ -58,6 +60,12 @@ const theme = createTheme({
       title_sm: {
          fontSize: 12,
          color: 'whiteColor',
+         textAlign: 'center',
+      },
+      title_imdb: {
+         fontSize: 12,
+         fontWeight: 'bold',
+         color: 'darkColor',
          textAlign: 'center',
       },
       text_normal: {

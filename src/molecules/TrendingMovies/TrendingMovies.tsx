@@ -39,6 +39,24 @@ export default function TrendingMovies(props: any) {
           source={{uri: `${POSTER_IMAGE}${item.poster_path}`}}
           style={styles.poster}
         />
+        <Box
+          width={75}
+          height={30}
+          bg="secondary"
+          borderTopRightRadius={10}
+          borderBottomLeftRadius={10}
+          position="absolute"
+          alignItems="center"
+          justifyContent="center"
+          flexDirection="row"
+          right={0}>
+          <Text variant="title_imdb" mr="xs">
+            IMDb
+          </Text>
+          <Text variant="title_sm" fontWeight="700" color="ratingColor">
+            {item.vote_average.toFixed(2)}
+          </Text>
+        </Box>
         <Box width={theme.spacing.CL}>
           <Text variant="title_normal" mt="sm">
             {item.title}
