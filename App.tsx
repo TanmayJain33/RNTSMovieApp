@@ -5,6 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {ThemeProvider} from '@shopify/restyle';
 import theme from './src/styles/theme';
 import MainRoot from './src/screens/MainRoot/MainRoot';
+import MovieDetails from './src/screens/MovieDetails/MovieDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,6 +16,7 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator screenOptions={{headerShown: false}}>
             <Stack.Screen name="MainRoot" component={MainRoot} />
+            <Stack.Screen name="MovieDetails" component={MovieDetails} />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaView>

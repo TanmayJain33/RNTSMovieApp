@@ -23,6 +23,8 @@ const theme = createTheme({
       inactiveIconColor: palette.lightGrey,
    },
    spacing: {
+      '-ml': -20,
+      '-xl': -40,
       xxs: 3,
       xs: 5,
       s: 8,
@@ -62,6 +64,25 @@ const theme = createTheme({
          width: 70,
          color: 'whiteText',
          textAlign: 'center',
+      },
+      detailsMovieTitle: {
+         textAlign: 'center',
+         fontSize: 20,
+         color: 'whiteText',
+      },
+      overview: {
+         textAlign: 'justify',
+         fontSize: 16,
+         color: 'whiteText',
+      },
+      details: {
+         color: 'secondary',
+         fontSize: 15,
+         fontWeight: 'bold',
+      },
+      genre: {
+         color: 'whiteText',
+         fontSize: 16,
       },
    },
    border: {

@@ -7,7 +7,7 @@ import TrendingMovies from '../../molecules/TrendingMovies/TrendingMovies';
 import TrendingPeople from '../../molecules/TrendingPeople/TrendingPeople';
 import theme from '../../styles/theme';
 
-export default function HomeScreen({navigation}: any) {
+export default function HomeScreen() {
   return (
     <Box flex={1} bg="primary">
       <Header
@@ -24,13 +24,9 @@ export default function HomeScreen({navigation}: any) {
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Box mb="m">
-          <DiscoverMovies navigation={navigation} url="/discover/movie" />
+          <DiscoverMovies url="/discover/movie" />
           <TrendingPeople title="Trending People" url="/trending/person/week" />
-          <TrendingMovies
-            title="Trending Movies"
-            url="/trending/movie/week"
-            navigation={navigation}
-          />
+          <TrendingMovies title="Trending Movies" url="/trending/movie/week" />
         </Box>
       </ScrollView>
     </Box>

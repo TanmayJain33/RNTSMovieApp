@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/core';
 import React, {useEffect, useState} from 'react';
 import {Image, ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import Box from '../../atoms/Box/Box';
@@ -8,9 +9,11 @@ import {IMAGE_POSTER_URL} from '../../utilities/Config';
 import {screenWidth} from '../../utilities/Constants';
 
 export default function DiscoverMovies(props: any) {
-  const [discoverMovies, setDiscoverMovies] = useState();
+  const [discoverMovies, setDiscoverMovies] = useState<any>([]);
   const [imageList, setImageList] = useState<any>([]);
   const [active, setActive] = useState(0);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     const getDiscoverMovies = async () => {
@@ -48,8 +51,17 @@ export default function DiscoverMovies(props: any) {
             scrollEventThrottle={10}
             onScroll={onChange}
             showsHorizontalScrollIndicator={false}>
-            {imageList.map((item: any, index: React.Key | null | undefined) => (
-              <TouchableOpacity key={index}>
+            {imageList.map((item: any, index: React.Key) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() =>
+                  navigation.navigate(
+                    'MovieDetails' as never,
+                    {
+                      movieId: discoverMovies[index].id,
+                    } as never,
+                  )
+                }>
                 <Image
                   resizeMode="cover"
                   key={index}
