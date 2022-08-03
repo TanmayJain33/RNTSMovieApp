@@ -6,10 +6,13 @@ import {POSTER_IMAGE} from '../../utilities/Config';
 import {GET} from '../../services/API';
 import {Loader} from '../../atoms/Loader/Loader';
 import theme from '../../styles/theme';
+import {useNavigation} from '@react-navigation/native';
 
 export default function TrendingMovies(props: any) {
   const [loading, setLoading] = useState(true);
-  const [trendingMovies, setTrendingMovies] = useState();
+  const [trendingMovies, setTrendingMovies] = useState<any>([]);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     const getTrendingMovies = async () => {
@@ -20,9 +23,18 @@ export default function TrendingMovies(props: any) {
     getTrendingMovies();
   }, [props.url]);
 
-  const displayTrendingMovies = ({item}: any) => {
+  const displayTrendingMovies = ({item, index}: any) => {
     return (
-      <TouchableOpacity style={styles.container}>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() =>
+          navigation.navigate(
+            'MovieDetails' as never,
+            {
+              movieId: trendingMovies[index].id,
+            } as never,
+          )
+        }>
         <Image
           source={{uri: `${POSTER_IMAGE}${item.poster_path}`}}
           style={styles.poster}
@@ -50,7 +62,7 @@ export default function TrendingMovies(props: any) {
             data={trendingMovies}
             horizontal
             showsHorizontalScrollIndicator={false}
-            renderItem={item => displayTrendingMovies(item)}
+            renderItem={v => displayTrendingMovies(v)}
           />
         </Box>
       )}
