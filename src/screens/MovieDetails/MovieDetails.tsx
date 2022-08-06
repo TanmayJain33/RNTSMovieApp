@@ -18,6 +18,7 @@ import {screenWidth} from '../../utilities/Constants';
 import TrendingPeople from '../../molecules/TrendingPeople/TrendingPeople';
 import TrendingMovies from '../../molecules/TrendingMovies/TrendingMovies';
 import {Header} from '../../atoms/Header/Header';
+import Videos from '../../molecules/Videos/Videos';
 
 export default function MovieDetails() {
   const route = useRoute();
@@ -131,6 +132,11 @@ export default function MovieDetails() {
                 </ScrollView>
               </Box>
               <TrendingPeople title="Cast" url={`/movie/${movieId}/credits`} />
+              <Videos
+                title="Teasers | Trailers"
+                url={`/movie/${movieId}/videos`}
+                imageSource={`${IMAGE_POSTER_URL}${details.backdrop_path}`}
+              />
               <TrendingMovies
                 title="Similar Movies"
                 url={`/movie/${movieId}/similar`}
