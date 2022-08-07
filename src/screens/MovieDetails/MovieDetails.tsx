@@ -96,6 +96,21 @@ export default function MovieDetails() {
                 </TouchableOpacity>
               </Box>
             ) : null}
+            <Box
+              bg="secondary"
+              borderRadius={100}
+              p="sm"
+              mr="s"
+              mt="-xxl"
+              alignSelf="flex-end"
+              alignItems="center"
+              width={50}
+              height={45}>
+              <Text variant="title_imdb">IMDb</Text>
+              <Text variant="title_sm" fontWeight="700" color="ratingColor">
+                {details.vote_average.toFixed(2)}
+              </Text>
+            </Box>
             <Box>
               <Text ml="s" variant="subHeading" mt="xs">
                 Overview
