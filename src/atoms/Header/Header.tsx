@@ -34,7 +34,7 @@ export const Header: FC<HeaderProps> = ({
           </TouchableOpacity>
         </Box>
       )}
-      <Text textAlign="center" variant="mainHeading">
+      <Text variant="mainHeading" mr="l">
         {title}
       </Text>
       {icon && <Icon title={iconName} size={iconSize} color={iconColor} />}

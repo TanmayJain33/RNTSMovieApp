@@ -6,10 +6,13 @@ import {GET} from '../../services/API';
 import {Loader} from '../../atoms/Loader/Loader';
 import theme from '../../styles/theme';
 import VideoItem from '../VideoItem/VideoItem';
+import {useNavigation} from '@react-navigation/core';
 
 export default function Videos(props: any) {
   const [loading, setLoading] = useState(true);
   const [videos, setVideos] = useState<any>([]);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     const getVideos = async () => {
@@ -22,7 +25,14 @@ export default function Videos(props: any) {
 
   const displayVideos = ({item}: any) => {
     return (
-      <TouchableOpacity key={item.key}>
+      <TouchableOpacity
+        key={item.key}
+        onPress={() =>
+          navigation.navigate(
+            'VideoPlayer' as never,
+            {videoId: item.key, videoName: item.name} as never,
+          )
+        }>
         <VideoItem imageSource={props.imageSource} name={item.name} />
       </TouchableOpacity>
     );
