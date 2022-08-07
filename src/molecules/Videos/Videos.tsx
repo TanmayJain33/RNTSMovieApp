@@ -41,7 +41,7 @@ export default function Videos(props: any) {
             keyExtractor={item => item.id}
             style={styles.container}
             data={videos}
-            horizontal
+            numColumns={2}
             showsHorizontalScrollIndicator={false}
             renderItem={v => displayVideos(v)}
           />
