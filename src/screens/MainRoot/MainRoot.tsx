@@ -1,17 +1,17 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import HomeScreen from '../Home/HomeScreen';
 import FavoriteScreen from '../Favorite/FavoriteScreen';
 import SettingScreen from '../Setting/SettingScreen';
 import theme from '../../styles/theme';
 import {Icon} from '../../atoms/Icon/Icon';
+import MoviesScreen from '../MoviesScreen/MoviesScreen';
 
 const Tab = createBottomTabNavigator();
 
 export default function MainRoot() {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="Movies"
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: theme.colors.secondary,
@@ -23,12 +23,12 @@ export default function MainRoot() {
         },
       }}>
       <Tab.Screen
-        name="HomeScreen"
-        component={HomeScreen}
+        name="moviesScreen"
+        component={MoviesScreen}
         options={{
-          tabBarLabel: 'Home',
+          tabBarLabel: 'Movies',
           tabBarIcon: ({color}) => (
-            <Icon title="home" size={theme.spacing.ml} color={color} />
+            <Icon title="film" size={theme.spacing.ml} color={color} />
           ),
         }}
       />

@@ -2,7 +2,9 @@ import {useNavigation} from '@react-navigation/core';
 import React, {useEffect, useState} from 'react';
 import {Image, ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import Box from '../../atoms/Box/Box';
+import {Icon} from '../../atoms/Icon/Icon';
 import {Loader} from '../../atoms/Loader/Loader';
+import Text from '../../atoms/Text/Text';
 import {GET} from '../../services/API';
 import theme from '../../styles/theme';
 import {IMAGE_POSTER_URL} from '../../utilities/Config';
@@ -42,7 +44,7 @@ export default function DiscoverMovies(props: any) {
   };
 
   return (
-    <Box>
+    <Box mb="m">
       {imageList.length > 0 ? (
         <>
           <ScrollView
@@ -68,11 +70,48 @@ export default function DiscoverMovies(props: any) {
                   source={{uri: item}}
                   style={styles.poster}
                 />
+                <Box
+                  pt="xs"
+                  bg="whiteColor"
+                  borderBottomLeftRadius={10}
+                  borderBottomRightRadius={10}>
+                  <Text
+                    variant="headingSmall"
+                    color="primary"
+                    textAlign="center">
+                    {discoverMovies[index].title}
+                  </Text>
+                  <Box
+                    my="xs"
+                    flexDirection="row"
+                    justifyContent="space-evenly">
+                    <Box flexDirection="row" alignItems="center">
+                      <Icon
+                        title="calendar"
+                        size={theme.spacing.m}
+                        color={theme.colors.primary}
+                      />
+                      <Text variant="text_normal" color="primary" ml="xs">
+                        {discoverMovies[index].release_date}
+                      </Text>
+                    </Box>
+                    <Box flexDirection="row" alignItems="center">
+                      <Icon
+                        title="star"
+                        size={theme.spacing.m}
+                        color={theme.colors.secondary}
+                      />
+                      <Text variant="text_normal_special" ml="xs">
+                        {discoverMovies[index].vote_average}
+                      </Text>
+                    </Box>
+                  </Box>
+                </Box>
               </TouchableOpacity>
             ))}
           </ScrollView>
           <Box
-            bottom={theme.spacing.xxs}
+            bottom={theme.spacing.xxl}
             position="absolute"
             alignSelf="center"
             flexDirection="row">

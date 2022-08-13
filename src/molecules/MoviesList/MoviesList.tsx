@@ -8,22 +8,22 @@ import {Loader} from '../../atoms/Loader/Loader';
 import theme from '../../styles/theme';
 import {useNavigation} from '@react-navigation/native';
 
-export default function TrendingMovies(props: any) {
+export default function MoviesList(props: any) {
   const [loading, setLoading] = useState(true);
-  const [trendingMovies, setTrendingMovies] = useState<any>([]);
+  const [moviesList, setMoviesList] = useState<any>([]);
 
   const navigation = useNavigation();
 
   useEffect(() => {
-    const getTrendingMovies = async () => {
-      const moviesData = await GET(props.url);
-      setTrendingMovies(moviesData.results);
+    const getMovies = async () => {
+      const moviesData = await GET(props.url, props.region);
+      setMoviesList(moviesData.results);
       setLoading(false);
     };
-    getTrendingMovies();
-  }, [props.url]);
+    getMovies();
+  }, [props.url, props.region]);
 
-  const displayTrendingMovies = ({item, index}: any) => {
+  const displayMovies = ({item, index}: any) => {
     return (
       <TouchableOpacity
         style={styles.container}
@@ -31,7 +31,7 @@ export default function TrendingMovies(props: any) {
           navigation.navigate(
             'MovieDetails' as never,
             {
-              movieId: trendingMovies[index].id,
+              movieId: moviesList[index].id,
             } as never,
           )
         }>
@@ -39,24 +39,26 @@ export default function TrendingMovies(props: any) {
           source={{uri: `${POSTER_IMAGE}${item.poster_path}`}}
           style={styles.poster}
         />
-        <Box
-          width={75}
-          height={30}
-          bg="secondary"
-          borderTopRightRadius={10}
-          borderBottomLeftRadius={10}
-          position="absolute"
-          alignItems="center"
-          justifyContent="center"
-          flexDirection="row"
-          right={0}>
-          <Text variant="title_imdb" mr="xs">
-            IMDb
-          </Text>
-          <Text variant="title_sm" fontWeight="700" color="ratingColor">
-            {item.vote_average.toFixed(2)}
-          </Text>
-        </Box>
+        {item.vote_average > 0 && (
+          <Box
+            width={75}
+            height={30}
+            bg="secondary"
+            borderTopRightRadius={10}
+            borderBottomLeftRadius={10}
+            position="absolute"
+            alignItems="center"
+            justifyContent="center"
+            flexDirection="row"
+            right={0}>
+            <Text variant="title_imdb" mr="xs">
+              IMDb
+            </Text>
+            <Text variant="title_sm" fontWeight="700" color="ratingColor">
+              {item.vote_average.toFixed(2)}
+            </Text>
+          </Box>
+        )}
         <Box width={theme.spacing.CL}>
           <Text variant="title_normal" mt="sm">
             {item.title}
@@ -67,20 +69,20 @@ export default function TrendingMovies(props: any) {
   };
 
   return (
-    <Box>
+    <Box mb="m">
       {loading ? (
         <Loader size="large" color={theme.colors.whiteColor} />
       ) : (
         <Box>
-          <Text variant="subHeading" m="sm">
+          <Text variant="subHeading" m="sm" mb="m">
             {props.title}
           </Text>
           <FlatList
             keyExtractor={item => item.id}
-            data={trendingMovies}
+            data={moviesList}
             horizontal
             showsHorizontalScrollIndicator={false}
-            renderItem={v => displayTrendingMovies(v)}
+            renderItem={v => displayMovies(v)}
           />
         </Box>
       )}

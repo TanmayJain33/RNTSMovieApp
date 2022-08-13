@@ -16,9 +16,9 @@ import {useRoute} from '@react-navigation/native';
 import theme from '../../styles/theme';
 import {screenWidth} from '../../utilities/Constants';
 import TrendingPeople from '../../molecules/TrendingPeople/TrendingPeople';
-import TrendingMovies from '../../molecules/TrendingMovies/TrendingMovies';
 import {Header} from '../../atoms/Header/Header';
 import Videos from '../../molecules/Videos/Videos';
+import TrendingMovies from '../../molecules/MoviesList/MoviesList';
 
 export default function MovieDetails() {
   const route = useRoute();
