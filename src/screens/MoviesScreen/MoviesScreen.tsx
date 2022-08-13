@@ -1,6 +1,7 @@
 import React from 'react';
 import {ScrollView} from 'react-native';
 import Box from '../../atoms/Box/Box';
+import {Divider} from '../../atoms/Divider/Divider';
 import {Header} from '../../atoms/Header/Header';
 import DiscoverMovies from '../../molecules/DiscoverMovies/DiscoverMovies';
 import MoviesList from '../../molecules/MoviesList/MoviesList';
@@ -24,13 +25,17 @@ export default function MoviesScreen() {
       <ScrollView showsVerticalScrollIndicator={false}>
         <Box mb="m">
           <DiscoverMovies url="/discover/movie" />
-          <MoviesList title="Trending Movies" url="/trending/movie/week" />
-          <MoviesList
-            title="Now Playing In India"
-            url="/movie/now_playing"
-            region="IN"
-          />
-          <MoviesList title="Top Rated" url="/movie/top_rated" />
+          <Box mx="m" mt="m">
+            <MoviesList title="Trending Movies" url="/trending/movie/week" />
+            <Divider color="whiteColor" height={1} my="m" />
+            <MoviesList
+              title="Now Playing In India"
+              url="/movie/now_playing"
+              region="IN"
+            />
+            <Divider color="whiteColor" height={1} my="m" />
+            <MoviesList title="Top Rated" url="/movie/top_rated" />
+          </Box>
         </Box>
       </ScrollView>
     </Box>

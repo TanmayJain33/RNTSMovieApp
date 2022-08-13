@@ -8,31 +8,36 @@ import theme from '../../styles/theme';
 import {IMAGE_POSTER_URL} from '../../utilities/Config';
 import capitalizeName from '../../utilities/Capitalization';
 
-export default function TrendingPeople(props: any) {
+export default function PeopleList(props: any) {
   const [loading, setLoading] = useState(true);
   const [peopleList, setPeopleList] = useState<any>([]);
+  const [crewList, setCrewList] = useState<any>([]);
 
   useEffect(() => {
-    const getTrendingPeople = async () => {
+    const getPeopleList = async () => {
       const peopleData = await GET(props.url);
       setPeopleList(peopleData.results || peopleData.cast);
+      setCrewList(peopleData.crew);
       setLoading(false);
     };
-    getTrendingPeople();
+    getPeopleList();
   }, [props.url]);
 
-  const displayTrendingPeople = ({item}: any) => {
+  const displayPeopleList = ({item}: any) => {
     return (
       item.profile_path &&
       item.name && (
-        <Box mx="sm" my="xs">
+        <Box mr="m">
           <Image
-            style={styles.trendingPeopleImage}
+            style={styles.peopleImage}
             source={{uri: `${IMAGE_POSTER_URL}${item.profile_path}`}}
           />
-          <Box width={theme.spacing.lxx}>
-            <Text variant="title_sm" mt="sm">
+          <Box width={140}>
+            <Text variant="text_normal" textAlign="left" my="s">
               {capitalizeName(item.name)}
+            </Text>
+            <Text variant="title_sm" textAlign="left">
+              {capitalizeName(item.character)}
             </Text>
           </Box>
         </Box>
@@ -45,8 +50,8 @@ export default function TrendingPeople(props: any) {
       {loading ? (
         <Loader size="large" color={theme.colors.whiteColor} />
       ) : (
-        <Box mt="sm">
-          <Text variant="subHeading" m="sm">
+        <Box>
+          <Text variant="subHeading" mb="m">
             {props.title}
           </Text>
           <FlatList
@@ -54,8 +59,28 @@ export default function TrendingPeople(props: any) {
             data={peopleList}
             horizontal
             showsHorizontalScrollIndicator={false}
-            renderItem={displayTrendingPeople}
+            renderItem={displayPeopleList}
           />
+          <Text variant="headingSmall" mb="xs">
+            Director
+          </Text>
+          {crewList.map((item: {job: string; name: string}) => {
+            if (item.job === 'Director') {
+              return (
+                <Text variant="text_normal" mb="m">
+                  {item.name}
+                </Text>
+              );
+            }
+          })}
+          <Text variant="headingSmall" mb="xs">
+            Writer
+          </Text>
+          {crewList.map((item: {job: string; name: string}) => {
+            if (item.job === 'Screenplay') {
+              return <Text variant="text_normal">{item.name}</Text>;
+            }
+          })}
         </Box>
       )}
     </Box>
@@ -63,9 +88,9 @@ export default function TrendingPeople(props: any) {
 }
 
 const styles = StyleSheet.create({
-  trendingPeopleImage: {
-    height: theme.spacing.lxx,
-    width: theme.spacing.lxx,
-    borderRadius: theme.spacing.lxx,
+  peopleImage: {
+    height: 200,
+    width: 140,
+    borderRadius: 10,
   },
 });

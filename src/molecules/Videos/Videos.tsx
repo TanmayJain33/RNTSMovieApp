@@ -44,7 +44,7 @@ export default function Videos(props: any) {
         <Loader size="large" color={theme.colors.whiteColor} />
       ) : (
         <Box>
-          <Text variant="subHeading" m="sm">
+          <Text variant="subHeading" mb="m">
             {props.title}
           </Text>
           <FlatList

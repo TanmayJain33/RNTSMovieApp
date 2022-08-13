@@ -6,14 +6,14 @@ import theme from '../../styles/theme';
 import {Icon} from '../../atoms/Icon/Icon';
 import {screenWidth, screenHeight} from '../../utilities/Constants';
 
-const posterWidth = (screenWidth - 30) / 2;
-const posterHeight = (screenHeight - 240) / 5;
+const posterWidth = screenWidth / 2.35;
+const posterHeight = screenHeight / 9;
 const leftPosition = (posterWidth - 24) / 2;
 const topPosition = (posterHeight - 24) / 2;
 
 export default function VideoItem(props: any) {
   return (
-    <Box mx="xs" flex={1} flexWrap="wrap">
+    <Box mr="m" flex={1} flexWrap="wrap">
       <Image
         resizeMode="cover"
         source={{uri: props.imageSource}}

@@ -25,56 +25,55 @@ export default function MoviesList(props: any) {
 
   const displayMovies = ({item, index}: any) => {
     return (
-      <TouchableOpacity
-        style={styles.container}
-        onPress={() =>
-          navigation.navigate(
-            'MovieDetails' as never,
-            {
-              movieId: moviesList[index].id,
-            } as never,
-          )
-        }>
-        <Image
-          source={{uri: `${POSTER_IMAGE}${item.poster_path}`}}
-          style={styles.poster}
-        />
-        {item.vote_average > 0 && (
-          <Box
-            width={75}
-            height={30}
-            bg="secondary"
-            borderTopRightRadius={10}
-            borderBottomLeftRadius={10}
-            position="absolute"
-            alignItems="center"
-            justifyContent="center"
-            flexDirection="row"
-            right={0}>
-            <Text variant="title_imdb" mr="xs">
-              IMDb
-            </Text>
-            <Text variant="title_sm" fontWeight="700" color="ratingColor">
-              {item.vote_average.toFixed(2)}
+      <Box mr="m">
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate(
+              'MovieDetails' as never,
+              {
+                movieId: moviesList[index].id,
+              } as never,
+            )
+          }>
+          <Image
+            source={{uri: `${POSTER_IMAGE}${item.poster_path}`}}
+            style={styles.poster}
+          />
+          {item.vote_average > 0 && (
+            <Box
+              width={65}
+              height={25}
+              bg="secondary"
+              borderTopRightRadius={10}
+              borderBottomLeftRadius={10}
+              position="absolute"
+              alignItems="center"
+              justifyContent="space-evenly"
+              flexDirection="row"
+              right={0}>
+              <Text variant="title_imdb">IMDb</Text>
+              <Text variant="title_sm" fontWeight="700" color="ratingColor">
+                {item.vote_average.toFixed(1)}
+              </Text>
+            </Box>
+          )}
+          <Box width={140}>
+            <Text variant="text_normal" textAlign="left" my="s">
+              {item.title}
             </Text>
           </Box>
-        )}
-        <Box width={theme.spacing.CL}>
-          <Text variant="title_normal" mt="sm">
-            {item.title}
-          </Text>
-        </Box>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </Box>
     );
   };
 
   return (
-    <Box mb="m">
+    <Box>
       {loading ? (
         <Loader size="large" color={theme.colors.whiteColor} />
       ) : (
         <Box>
-          <Text variant="subHeading" m="sm" mb="m">
+          <Text variant="subHeading" mb="m">
             {props.title}
           </Text>
           <FlatList
@@ -91,6 +90,5 @@ export default function MoviesList(props: any) {
 }
 
 const styles = StyleSheet.create({
-  container: {marginHorizontal: 10},
-  poster: {width: 150, height: 250, borderRadius: 10},
+  poster: {height: 200, width: 140, borderRadius: 10},
 });

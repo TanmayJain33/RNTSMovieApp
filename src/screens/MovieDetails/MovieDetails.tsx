@@ -14,11 +14,14 @@ import {Loader} from '../../atoms/Loader/Loader';
 import {Icon} from '../../atoms/Icon/Icon';
 import {useRoute} from '@react-navigation/native';
 import theme from '../../styles/theme';
-import {screenWidth} from '../../utilities/Constants';
-import TrendingPeople from '../../molecules/TrendingPeople/TrendingPeople';
 import {Header} from '../../atoms/Header/Header';
 import Videos from '../../molecules/Videos/Videos';
-import TrendingMovies from '../../molecules/MoviesList/MoviesList';
+import ImageSlider from '../../molecules/ImageSlider/ImageSlider';
+import {Divider} from '../../atoms/Divider/Divider';
+import PeopleList from '../../molecules/PeopleList/PeopleList';
+import MoviesList from '../../molecules/MoviesList/MoviesList';
+import ReviewList from '../../molecules/ReviewList/ReviewList';
+import MoreAbout from '../../molecules/MoreAbout/MoreAbout';
 
 export default function MovieDetails() {
   const route = useRoute();
@@ -42,8 +45,8 @@ export default function MovieDetails() {
         borderRadius={5}
         borderColor="whiteColor"
         px="sm"
-        py="xs"
-        mx="sm">
+        mr="s"
+        py="xs">
         <Text variant="genre">{genre.name}</Text>
       </Box>
     ));
@@ -52,7 +55,7 @@ export default function MovieDetails() {
   return (
     <Box flex={1} bg="primary">
       <Header
-        title={details.original_title}
+        title={details.title}
         alignItems="center"
         flexDirection="row"
         mb="sm"
@@ -69,18 +72,13 @@ export default function MovieDetails() {
           <Loader size="large" color={theme.colors.whiteColor} />
         ) : (
           <Box>
-            <Box>
-              <Image
-                source={{uri: `${IMAGE_POSTER_URL}${details.backdrop_path}`}}
-                style={styles.posterImage}
-              />
-            </Box>
+            <ImageSlider url="/movie/" movieId={movieId} />
             {details.homepage ? (
               <Box
                 bg="secondary"
                 borderRadius={100}
                 p="sm"
-                ml="s"
+                ml="m"
                 mt="-ml"
                 alignItems="center"
                 width={45}>
@@ -96,65 +94,82 @@ export default function MovieDetails() {
                 </TouchableOpacity>
               </Box>
             ) : null}
-            <Box
-              bg="secondary"
-              borderRadius={100}
-              p="sm"
-              mr="s"
-              mt="-xxl"
-              alignSelf="flex-end"
-              alignItems="center"
-              width={50}
-              height={45}>
-              <Text variant="title_imdb">IMDb</Text>
-              <Text variant="title_sm" fontWeight="700" color="ratingColor">
-                {details.vote_average.toFixed(2)}
-              </Text>
-            </Box>
-            <Box>
-              <Text ml="s" variant="subHeading" mt="xs">
-                Overview
-              </Text>
-              <Text variant="text_normal" mx="ml" mb="sm" mt="xxs">
-                {details.overview}
-              </Text>
-              <Box flexDirection="row" justifyContent="space-between" m="sm">
-                <Box>
-                  <Text variant="headingSmall">Budget</Text>
-                  <Text variant="text_normal_special" mt="xxs">
-                    $ {details.budget}
+            <Box m="m">
+              <Box flexDirection="row">
+                <Image
+                  source={{uri: `${IMAGE_POSTER_URL}${details.poster_path}`}}
+                  style={styles.posterImage}
+                />
+                <Box flex={1} ml="m" my="s">
+                  <ScrollView showsHorizontalScrollIndicator={false} horizontal>
+                    {getGenre()}
+                  </ScrollView>
+                  <Box flex={1} my="s">
+                    <Text variant="text_normal" fontSize={13}>
+                      {details.overview}
+                    </Text>
+                  </Box>
+                </Box>
+              </Box>
+              <Divider color="whiteColor" height={1} my="m" />
+              <Box flexDirection="row" justifyContent="space-evenly">
+                <Box alignItems="center">
+                  <Icon
+                    title="star"
+                    size={theme.spacing.l}
+                    color={theme.colors.secondary}
+                  />
+                  <Box mt="xxs" flexDirection="row" alignItems="center">
+                    <Text variant="subHeading">
+                      {details.vote_average.toFixed(1)}
+                    </Text>
+                    <Text variant="text_normal">/10</Text>
+                  </Box>
+                  <Text variant="title_sm">{details.vote_count}</Text>
+                </Box>
+                <Box alignItems="center">
+                  <Icon
+                    title="people"
+                    size={theme.spacing.l}
+                    color={theme.colors.secondary}
+                  />
+                  <Text mt="xxs" variant="subHeading">
+                    {details.popularity.toFixed(0)}
                   </Text>
                 </Box>
-                <Box>
-                  <Text variant="headingSmall">Duration</Text>
-                  <Text variant="text_normal_special" mt="xxs">
-                    {details.runtime} min.
-                  </Text>
-                </Box>
-                <Box>
-                  <Text variant="headingSmall">Release Date</Text>
-                  <Text variant="text_normal_special" mt="xxs">
-                    {details.release_date}
+                <Box alignItems="center">
+                  <Icon
+                    title="timer"
+                    size={theme.spacing.l}
+                    color={theme.colors.secondary}
+                  />
+                  <Text mt="xxs" variant="subHeading">
+                    {details.runtime} mins.
                   </Text>
                 </Box>
               </Box>
-              <Text variant="subHeading" mt="xxs" ml="sm">
-                Genre
-              </Text>
-              <Box mt="s" flexDirection="row">
-                <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-                  {getGenre()}
-                </ScrollView>
-              </Box>
-              <TrendingPeople title="Cast" url={`/movie/${movieId}/credits`} />
+              <Divider color="whiteColor" height={1} my="m" />
+              <PeopleList title="Cast" url={`/movie/${movieId}/credits`} />
+              <Divider color="whiteColor" height={1} my="m" />
+              <MoviesList
+                title="More like this"
+                url={`/movie/${movieId}/similar`}
+              />
+              <Divider color="whiteColor" height={1} my="m" />
               <Videos
                 title="Teasers | Trailers"
                 url={`/movie/${movieId}/videos`}
                 imageSource={`${IMAGE_POSTER_URL}${details.backdrop_path}`}
               />
-              <TrendingMovies
-                title="Similar Movies"
-                url={`/movie/${movieId}/similar`}
+              <Divider color="whiteColor" height={1} my="m" />
+              <ReviewList
+                title="User reviews"
+                url={`/movie/${movieId}/reviews`}
+              />
+              <Divider color="whiteColor" height={1} my="m" />
+              <MoreAbout
+                title={`More about "${details.title}"`}
+                url={`/movie/${movieId}/external_ids`}
               />
             </Box>
           </Box>
@@ -165,6 +180,9 @@ export default function MovieDetails() {
 }
 
 const styles = StyleSheet.create({
-  mainContainer: {flex: 1, backgroundColor: theme.colors.primary},
-  posterImage: {width: screenWidth, height: 250},
+  mainContainer: {
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+  },
+  posterImage: {width: 100, height: 170},
 });
