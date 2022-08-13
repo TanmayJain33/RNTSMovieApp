@@ -11,13 +11,11 @@ import capitalizeName from '../../utilities/Capitalization';
 export default function PeopleList(props: any) {
   const [loading, setLoading] = useState(true);
   const [peopleList, setPeopleList] = useState<any>([]);
-  const [crewList, setCrewList] = useState<any>([]);
 
   useEffect(() => {
     const getPeopleList = async () => {
       const peopleData = await GET(props.url);
       setPeopleList(peopleData.results || peopleData.cast);
-      setCrewList(peopleData.crew);
       setLoading(false);
     };
     getPeopleList();
@@ -61,26 +59,6 @@ export default function PeopleList(props: any) {
             showsHorizontalScrollIndicator={false}
             renderItem={displayPeopleList}
           />
-          <Text variant="headingSmall" mb="xs">
-            Director
-          </Text>
-          {crewList.map((item: {job: string; name: string}) => {
-            if (item.job === 'Director') {
-              return (
-                <Text variant="text_normal" mb="m">
-                  {item.name}
-                </Text>
-              );
-            }
-          })}
-          <Text variant="headingSmall" mb="xs">
-            Writer
-          </Text>
-          {crewList.map((item: {job: string; name: string}) => {
-            if (item.job === 'Screenplay') {
-              return <Text variant="text_normal">{item.name}</Text>;
-            }
-          })}
         </Box>
       )}
     </Box>

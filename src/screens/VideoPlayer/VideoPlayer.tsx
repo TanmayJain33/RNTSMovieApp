@@ -7,13 +7,12 @@ import theme from '../../styles/theme';
 
 export default function VideoPlayer() {
   const route = useRoute();
-  const {videoId, videoName}: any = route.params;
+  const {videoId}: any = route.params;
 
   return (
     <>
       <Box bg="primary">
         <Header
-          title={videoName}
           alignItems="center"
           flexDirection="row"
           mb="sm"

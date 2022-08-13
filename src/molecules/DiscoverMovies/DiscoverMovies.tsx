@@ -56,14 +56,21 @@ export default function DiscoverMovies(props: any) {
             {imageList.map((item: any, index: React.Key) => (
               <TouchableOpacity
                 key={index}
-                onPress={() =>
-                  navigation.navigate(
-                    'MovieDetails' as never,
-                    {
-                      movieId: discoverMovies[index].id,
-                    } as never,
-                  )
-                }>
+                onPress={() => {
+                  props.tv
+                    ? navigation.navigate(
+                        'TVDetails' as never,
+                        {
+                          TVId: discoverMovies[index].id,
+                        } as never,
+                      )
+                    : navigation.navigate(
+                        'MovieDetails' as never,
+                        {
+                          movieId: discoverMovies[index].id,
+                        } as never,
+                      );
+                }}>
                 <Image
                   resizeMode="cover"
                   key={index}
@@ -79,7 +86,7 @@ export default function DiscoverMovies(props: any) {
                     variant="headingSmall"
                     color="primary"
                     textAlign="center">
-                    {discoverMovies[index].title}
+                    {discoverMovies[index].title || discoverMovies[index].name}
                   </Text>
                   <Box
                     my="xs"
@@ -92,7 +99,8 @@ export default function DiscoverMovies(props: any) {
                         color={theme.colors.primary}
                       />
                       <Text variant="text_normal" color="primary" ml="xs">
-                        {discoverMovies[index].release_date}
+                        {discoverMovies[index].release_date ||
+                          discoverMovies[index].first_air_date}
                       </Text>
                     </Box>
                     <Box flexDirection="row" alignItems="center">

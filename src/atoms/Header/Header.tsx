@@ -6,7 +6,7 @@ import {Icon} from '../Icon/Icon';
 import Text from '../Text/Text';
 
 type HeaderProps = React.ComponentProps<boxType> & {
-  title: string;
+  title?: string;
   iconLeft?: boolean;
   icon?: boolean;
   iconName: string;

@@ -27,14 +27,21 @@ export default function MoviesList(props: any) {
     return (
       <Box mr="m">
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate(
-              'MovieDetails' as never,
-              {
-                movieId: moviesList[index].id,
-              } as never,
-            )
-          }>
+          onPress={() => {
+            props.tv
+              ? navigation.navigate(
+                  'TVDetails' as never,
+                  {
+                    TVId: moviesList[index].id,
+                  } as never,
+                )
+              : navigation.navigate(
+                  'MovieDetails' as never,
+                  {
+                    movieId: moviesList[index].id,
+                  } as never,
+                );
+          }}>
           <Image
             source={{uri: `${POSTER_IMAGE}${item.poster_path}`}}
             style={styles.poster}
@@ -59,7 +66,7 @@ export default function MoviesList(props: any) {
           )}
           <Box width={140}>
             <Text variant="text_normal" textAlign="left" my="s">
-              {item.title}
+              {item.title || item.name}
             </Text>
           </Box>
         </TouchableOpacity>

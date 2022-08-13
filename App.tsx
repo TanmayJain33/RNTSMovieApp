@@ -7,6 +7,7 @@ import theme from './src/styles/theme';
 import MainRoot from './src/screens/MainRoot/MainRoot';
 import MovieDetails from './src/screens/MovieDetails/MovieDetails';
 import VideoPlayer from './src/screens/VideoPlayer/VideoPlayer';
+import TVDetails from './src/screens/TVDetails/TVDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ export default function App() {
           <Stack.Navigator screenOptions={{headerShown: false}}>
             <Stack.Screen name="MainRoot" component={MainRoot} />
             <Stack.Screen name="MovieDetails" component={MovieDetails} />
+            <Stack.Screen name="TVDetails" component={TVDetails} />
             <Stack.Screen name="VideoPlayer" component={VideoPlayer} />
           </Stack.Navigator>
         </NavigationContainer>

@@ -5,6 +5,7 @@ import SettingScreen from '../Setting/SettingScreen';
 import theme from '../../styles/theme';
 import {Icon} from '../../atoms/Icon/Icon';
 import MoviesScreen from '../MoviesScreen/MoviesScreen';
+import TVScreen from '../TVScreen/TVScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,12 +24,22 @@ export default function MainRoot() {
         },
       }}>
       <Tab.Screen
-        name="moviesScreen"
+        name="MoviesScreen"
         component={MoviesScreen}
         options={{
           tabBarLabel: 'Movies',
           tabBarIcon: ({color}) => (
             <Icon title="film" size={theme.spacing.ml} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="TVScreen"
+        component={TVScreen}
+        options={{
+          tabBarLabel: 'TV',
+          tabBarIcon: ({color}) => (
+            <Icon title="tv" size={theme.spacing.ml} color={color} />
           ),
         }}
       />
