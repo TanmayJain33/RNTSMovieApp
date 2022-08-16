@@ -93,4 +93,14 @@ const theme = createTheme({
 });
 
 export type Theme = typeof theme;
+
+const lightTheme: Theme = {
+  ...theme,
+  colors: {
+    ...theme.colors,
+      primary: palette.white,
+  },
+};
+
 export default theme;
+export {lightTheme};
