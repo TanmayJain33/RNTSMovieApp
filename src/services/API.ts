@@ -9,14 +9,21 @@ export const GET = async (url: any, region?: any) => {
   return responseJson;
 };
 
-export const GETFAV = async () => {
+export const GETFAVMOVIES = async () => {
   const API_URL = `${BASE_URL}/account/{account_id}/favorite/movies?api_key=${API_KEY}&session_id=${SESSION_ID}`;
   const response = await fetch(API_URL, {method: 'GET'});
   const responseJson = await response.json();
   return responseJson;
 };
 
-export const POST = async (
+export const GETFAVTV = async () => {
+  const API_URL = `${BASE_URL}/account/{account_id}/favorite/tv?api_key=${API_KEY}&session_id=${SESSION_ID}`;
+  const response = await fetch(API_URL, {method: 'GET'});
+  const responseJson = await response.json();
+  return responseJson;
+};
+
+export const POSTFAV = async (
   url: any,
   media_type: string,
   media_id: any,

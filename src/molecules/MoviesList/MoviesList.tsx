@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {POSTER_IMAGE} from '../../utilities/Config';
-import {GET, GETFAV, POST} from '../../services/API';
+import {GET, GETFAVMOVIES, GETFAVTV, POSTFAV} from '../../services/API';
 import {Loader} from '../../atoms/Loader/Loader';
 import theme from '../../styles/theme';
 import {useNavigation} from '@react-navigation/native';
@@ -18,13 +18,19 @@ import {Icon} from '../../atoms/Icon/Icon';
 export default function MoviesList(props: any) {
   const [loading, setLoading] = useState(true);
   const [moviesList, setMoviesList] = useState<any>([]);
-  const [favData, setFavData] = useState<any>([]);
+  const [favMoviesData, setFavMoviesData] = useState<any>([]);
+  const [favTVData, setFavTVData] = useState<any>([]);
 
   const navigation = useNavigation();
 
   const getFavMovies = async () => {
-    const favMovieData = await GETFAV();
-    setFavData(favMovieData.results);
+    const favMovieData = await GETFAVMOVIES();
+    setFavMoviesData(favMovieData.results);
+  };
+
+  const getFavTV = async () => {
+    const favTvData = await GETFAVTV();
+    setFavTVData(favTvData.results);
   };
 
   useEffect(() => {
@@ -35,10 +41,11 @@ export default function MoviesList(props: any) {
     };
     getMovies();
     getFavMovies();
+    getFavTV();
   }, [props.url, props.region]);
 
   const postMovieAsFavorite = async (movieId: any) => {
-    const data = await POST(
+    const data = await POSTFAV(
       '/account/{account_id}/favorite',
       'movie',
       movieId,
@@ -47,11 +54,12 @@ export default function MoviesList(props: any) {
     if (data.success === true) {
       Alert.alert('Added to Favorites');
       getFavMovies();
+      getFavTV();
     }
   };
 
   const postMovieAsUnFavorite = async (movieId: any) => {
-    const data = await POST(
+    const data = await POSTFAV(
       '/account/{account_id}/favorite',
       'movie',
       movieId,
@@ -60,11 +68,47 @@ export default function MoviesList(props: any) {
     if (data.success === true) {
       Alert.alert('Removed from Favorites');
       getFavMovies();
+      getFavTV();
     }
   };
 
-  const exists = (movie: any) => {
-    if (favData.filter((item: any) => item.id === movie.id).length > 0) {
+  const postTVAsFavorite = async (tvId: any) => {
+    const data = await POSTFAV(
+      '/account/{account_id}/favorite',
+      'tv',
+      tvId,
+      true,
+    );
+    if (data.success === true) {
+      Alert.alert('Added to Favorites');
+      getFavMovies();
+      getFavTV();
+    }
+  };
+
+  const postTVAsUnFavorite = async (tvId: any) => {
+    const data = await POSTFAV(
+      '/account/{account_id}/favorite',
+      'tv',
+      tvId,
+      false,
+    );
+    if (data.success === true) {
+      Alert.alert('Removed from Favorites');
+      getFavMovies();
+      getFavTV();
+    }
+  };
+
+  const movieExists = (movie: any) => {
+    if (favMoviesData.filter((item: any) => item.id === movie.id).length > 0) {
+      return true;
+    }
+    return false;
+  };
+
+  const tvExists = (tv: any) => {
+    if (favTVData.filter((item: any) => item.id === tv.id).length > 0) {
       return true;
     }
     return false;
@@ -121,18 +165,33 @@ export default function MoviesList(props: any) {
                 {item.title || item.name}
               </Text>
             </Box>
-            <TouchableOpacity
-              onPress={() =>
-                exists(item)
-                  ? postMovieAsUnFavorite(moviesList[index].id)
-                  : postMovieAsFavorite(moviesList[index].id)
-              }>
-              <Icon
-                title={exists(item) ? 'heart' : 'heart-outline'}
-                color={theme.colors.secondary}
-                size={20}
-              />
-            </TouchableOpacity>
+            {props.tv ? (
+              <TouchableOpacity
+                onPress={() =>
+                  tvExists(item)
+                    ? postTVAsUnFavorite(moviesList[index].id)
+                    : postTVAsFavorite(moviesList[index].id)
+                }>
+                <Icon
+                  title={tvExists(item) ? 'heart' : 'heart-outline'}
+                  color={theme.colors.secondary}
+                  size={20}
+                />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={() =>
+                  movieExists(item)
+                    ? postMovieAsUnFavorite(moviesList[index].id)
+                    : postMovieAsFavorite(moviesList[index].id)
+                }>
+                <Icon
+                  title={movieExists(item) ? 'heart' : 'heart-outline'}
+                  color={theme.colors.secondary}
+                  size={20}
+                />
+              </TouchableOpacity>
+            )}
           </Box>
         </TouchableOpacity>
       </Box>
