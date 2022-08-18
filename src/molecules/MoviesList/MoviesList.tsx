@@ -1,18 +1,31 @@
 import React, {useEffect, useState} from 'react';
 import Box from '../../atoms/Box/Box';
 import Text from '../../atoms/Text/Text';
-import {FlatList, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  Alert,
+  FlatList,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import {POSTER_IMAGE} from '../../utilities/Config';
-import {GET} from '../../services/API';
+import {GET, GETFAV, POST} from '../../services/API';
 import {Loader} from '../../atoms/Loader/Loader';
 import theme from '../../styles/theme';
 import {useNavigation} from '@react-navigation/native';
+import {Icon} from '../../atoms/Icon/Icon';
 
 export default function MoviesList(props: any) {
   const [loading, setLoading] = useState(true);
   const [moviesList, setMoviesList] = useState<any>([]);
+  const [favData, setFavData] = useState<any>([]);
 
   const navigation = useNavigation();
+
+  const getFavMovies = async () => {
+    const favMovieData = await GETFAV();
+    setFavData(favMovieData.results);
+  };
 
   useEffect(() => {
     const getMovies = async () => {
@@ -21,7 +34,41 @@ export default function MoviesList(props: any) {
       setLoading(false);
     };
     getMovies();
+    getFavMovies();
   }, [props.url, props.region]);
+
+  const postMovieAsFavorite = async (movieId: any) => {
+    const data = await POST(
+      '/account/{account_id}/favorite',
+      'movie',
+      movieId,
+      true,
+    );
+    if (data.success === true) {
+      Alert.alert('Added to Favorites');
+      getFavMovies();
+    }
+  };
+
+  const postMovieAsUnFavorite = async (movieId: any) => {
+    const data = await POST(
+      '/account/{account_id}/favorite',
+      'movie',
+      movieId,
+      false,
+    );
+    if (data.success === true) {
+      Alert.alert('Removed from Favorites');
+      getFavMovies();
+    }
+  };
+
+  const exists = (movie: any) => {
+    if (favData.filter((item: any) => item.id === movie.id).length > 0) {
+      return true;
+    }
+    return false;
+  };
 
   const displayMovies = ({item, index}: any) => {
     return (
@@ -64,10 +111,28 @@ export default function MoviesList(props: any) {
               </Text>
             </Box>
           )}
-          <Box width={140}>
-            <Text variant="text_normal" textAlign="left" my="s">
-              {item.title || item.name}
-            </Text>
+          <Box
+            width={140}
+            my="s"
+            flexDirection="row"
+            justifyContent="space-between">
+            <Box width={115}>
+              <Text variant="text_normal" textAlign="left">
+                {item.title || item.name}
+              </Text>
+            </Box>
+            <TouchableOpacity
+              onPress={() =>
+                exists(item)
+                  ? postMovieAsUnFavorite(moviesList[index].id)
+                  : postMovieAsFavorite(moviesList[index].id)
+              }>
+              <Icon
+                title={exists(item) ? 'heart' : 'heart-outline'}
+                color={theme.colors.secondary}
+                size={20}
+              />
+            </TouchableOpacity>
           </Box>
         </TouchableOpacity>
       </Box>
