@@ -21,7 +21,6 @@ export default function FavoriteList(props: any) {
   const [favTVList, setFavTVList] = useState<any>([]);
 
   const navigation = useNavigation();
-  console.log(favTVList);
 
   const getFavMovies = async () => {
     setLoading(true);

@@ -96,7 +96,7 @@ export default function DiscoverMovies(props: any) {
                       <Icon
                         title="calendar"
                         size={theme.spacing.m}
-                        color={theme.colors.primary}
+                        color={theme.colors.secondary}
                       />
                       <Text variant="text_normal" color="primary" ml="xs">
                         {discoverMovies[index].release_date ||
