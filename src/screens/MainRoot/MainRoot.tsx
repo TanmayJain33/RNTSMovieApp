@@ -28,6 +28,7 @@ export default function MainRoot() {
         component={MoviesScreen}
         options={{
           tabBarLabel: 'Movies',
+          unmountOnBlur: true,
           tabBarIcon: ({color}) => (
             <Icon title="film" size={theme.spacing.ml} color={color} />
           ),
@@ -38,6 +39,7 @@ export default function MainRoot() {
         component={TVScreen}
         options={{
           tabBarLabel: 'TV',
+          unmountOnBlur: true,
           tabBarIcon: ({color}) => (
             <Icon title="tv" size={theme.spacing.ml} color={color} />
           ),
@@ -48,6 +50,7 @@ export default function MainRoot() {
         component={FavoriteScreen}
         options={{
           tabBarLabel: 'Favorite',
+          unmountOnBlur: true,
           tabBarIcon: ({color}) => (
             <Icon title="heart" size={theme.spacing.ml} color={color} />
           ),

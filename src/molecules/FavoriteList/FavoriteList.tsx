@@ -9,17 +9,19 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {POSTER_IMAGE} from '../../utilities/Config';
-import {GETFAVMOVIES, POSTFAV} from '../../services/API';
+import {GETFAVMOVIES, GETFAVTV, POSTFAV} from '../../services/API';
 import {Loader} from '../../atoms/Loader/Loader';
 import theme from '../../styles/theme';
 import {useNavigation} from '@react-navigation/native';
 import {Icon} from '../../atoms/Icon/Icon';
 
-export default function FavoriteList() {
+export default function FavoriteList(props: any) {
   const [loading, setLoading] = useState(true);
   const [favMoviesList, setFavMoviesList] = useState<any>([]);
+  const [favTVList, setFavTVList] = useState<any>([]);
 
   const navigation = useNavigation();
+  console.log(favTVList);
 
   const getFavMovies = async () => {
     setLoading(true);
@@ -28,11 +30,17 @@ export default function FavoriteList() {
     setLoading(false);
   };
 
+  const getFavTV = async () => {
+    setLoading(true);
+    const tvData = await GETFAVTV();
+    setFavTVList(tvData.results);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    if (loading) {
-      getFavMovies();
-    }
-  }, [loading]);
+    getFavMovies();
+    getFavTV();
+  }, []);
 
   const postMovieAsUnFavorite = async (movieId: any) => {
     const data = await POSTFAV(
@@ -47,17 +55,37 @@ export default function FavoriteList() {
     }
   };
 
+  const postTVAsUnFavorite = async (tvId: any) => {
+    const data = await POSTFAV(
+      '/account/{account_id}/favorite',
+      'tv',
+      tvId,
+      false,
+    );
+    if (data.success === true) {
+      Alert.alert('Removed from Favorites');
+      getFavTV();
+    }
+  };
+
   const displayMovies = ({item, index}: any) => {
     return (
       <Box mr="m">
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate(
-              'MovieDetails' as never,
-              {
-                movieId: favMoviesList[index].id,
-              } as never,
-            );
+            props.tv
+              ? navigation.navigate(
+                  'TVDetails' as never,
+                  {
+                    TVId: favTVList[index].id,
+                  } as never,
+                )
+              : navigation.navigate(
+                  'MovieDetails' as never,
+                  {
+                    movieId: favMoviesList[index].id,
+                  } as never,
+                );
           }}>
           <Image
             source={{uri: `${POSTER_IMAGE}${item.poster_path}`}}
@@ -89,11 +117,15 @@ export default function FavoriteList() {
             justifyContent="space-between">
             <Box width={140}>
               <Text variant="text_normal" textAlign="left">
-                {item.title}
+                {item.title || item.name}
               </Text>
             </Box>
             <TouchableOpacity
-              onPress={() => postMovieAsUnFavorite(favMoviesList[index].id)}>
+              onPress={() => {
+                props.tv
+                  ? postTVAsUnFavorite(favTVList[index].id)
+                  : postMovieAsUnFavorite(favMoviesList[index].id);
+              }}>
               <Icon title="heart" color={theme.colors.secondary} size={20} />
             </TouchableOpacity>
           </Box>
@@ -110,7 +142,7 @@ export default function FavoriteList() {
         <Box>
           <FlatList
             keyExtractor={item => item.id}
-            data={favMoviesList}
+            data={props.tv !== true ? favMoviesList : favTVList}
             renderItem={v => displayMovies(v)}
             numColumns={2}
           />

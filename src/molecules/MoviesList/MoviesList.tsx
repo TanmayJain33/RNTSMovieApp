@@ -23,13 +23,6 @@ export default function MoviesList(props: any) {
 
   const navigation = useNavigation();
 
-  const getMovie = async () => {
-    setLoading(true);
-    const moviesData = await GET(props.url, props.region);
-    setMoviesList(moviesData.results);
-    setLoading(false);
-  };
-
   const getFavMovies = async () => {
     const favMovieData = await GETFAVMOVIES();
     setFavMoviesData(favMovieData.results);
@@ -61,7 +54,6 @@ export default function MoviesList(props: any) {
     );
     if (data.success === true) {
       Alert.alert('Added to Favorites');
-      getMovie();
       getFavMovies();
       getFavTV();
     }
@@ -76,7 +68,6 @@ export default function MoviesList(props: any) {
     );
     if (data.success === true) {
       Alert.alert('Removed from Favorites');
-      getMovie();
       getFavMovies();
       getFavTV();
     }
