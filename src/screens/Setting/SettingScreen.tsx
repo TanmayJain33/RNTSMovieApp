@@ -1,21 +1,86 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Switch} from 'react-native';
 import Box from '../../atoms/Box/Box';
-import Text from '../../atoms/Text/Text';
 import * as themeActions from '../../redux/actions/theme.action';
 import {useDispatch, useSelector} from 'react-redux';
+import {Header} from '../../atoms/Header/Header';
+import {GETDETAILS} from '../../services/API';
+import {Loader} from '../../atoms/Loader/Loader';
+import theme from '../../styles/theme';
+import {Icon} from '../../atoms/Icon/Icon';
+import Text from '../../atoms/Text/Text';
 
 export default function SettingScreen() {
   const dispatch = useDispatch();
   const ThemeReducer = useSelector(({themeReducer}: any) => themeReducer);
+  const [loading, setLoading] = useState(true);
+  const [isEnabled, setIsEnabled] = useState(true);
+  const [accountDetails, setAccountDetails] = useState<any>([]);
+
+  useEffect(() => {
+    const getAccountDetails = async () => {
+      setLoading(true);
+      const accountData = await GETDETAILS();
+      setAccountDetails(accountData);
+      setLoading(false);
+    };
+    getAccountDetails();
+  }, []);
 
   return (
-    <Box bg="primary" flex={1} justifyContent="center" alignItems="center">
-      <Text variant="text_normal">SettingScreen</Text>
-      <Switch
-        value={ThemeReducer.theme}
-        onValueChange={val => dispatch(themeActions.ToggleTheme(val))}
+    <Box bg="primary" flex={1}>
+      <Header
+        title="Settings"
+        alignItems="center"
+        flexDirection="row"
+        mb="sm"
+        mx="ml"
       />
+      {loading ? (
+        <Loader size="large" color={theme.colors.whiteColor} />
+      ) : (
+        <Box mx="m">
+          <Box flexDirection="row" alignItems="center">
+            <Icon
+              title="person-circle"
+              size={24}
+              color={theme.colors.secondary}
+            />
+            <Text variant="subHeading" ml="s">
+              {accountDetails.username}
+            </Text>
+          </Box>
+          <Box
+            mt="xl"
+            mx="m"
+            flexDirection="row"
+            alignItems="flex-start"
+            justifyContent="space-between">
+            <Box>
+              <Text textAlign="left" variant="headingSmall">
+                App Theme
+              </Text>
+              <Text textAlign="left" variant="title_sm">
+                {isEnabled ? 'Dark' : 'Light'}
+              </Text>
+            </Box>
+            <Switch
+              value={ThemeReducer.theme}
+              trackColor={{
+                false: theme.colors.lightGreyColor,
+                true: theme.colors.ratingColor,
+              }}
+              thumbColor={
+                isEnabled ? theme.colors.whiteColor : theme.colors.secondary
+              }
+              onValueChange={val => {
+                dispatch(themeActions.ToggleTheme(val));
+                setIsEnabled(!isEnabled);
+              }}
+            />
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 }
