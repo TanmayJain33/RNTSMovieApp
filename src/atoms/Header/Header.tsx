@@ -9,9 +9,9 @@ type HeaderProps = React.ComponentProps<boxType> & {
   title?: string;
   iconLeft?: boolean;
   icon?: boolean;
-  iconName: string;
-  iconColor: string;
-  iconSize: number;
+  iconName?: string;
+  iconColor?: string;
+  iconSize?: number;
 };
 
 export const Header: FC<HeaderProps> = ({
@@ -27,7 +27,7 @@ export const Header: FC<HeaderProps> = ({
 
   return (
     <Box {...props}>
-      {iconLeft && (
+      {iconLeft && iconName !== undefined && (
         <Box mr="l">
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Icon title={iconName} size={iconSize} color={iconColor} />
@@ -37,7 +37,9 @@ export const Header: FC<HeaderProps> = ({
       <Text variant="mainHeading" mr="l">
         {title}
       </Text>
-      {icon && <Icon title={iconName} size={iconSize} color={iconColor} />}
+      {icon && iconName !== undefined && (
+        <Icon title={iconName} size={iconSize} color={iconColor} />
+      )}
     </Box>
   );
 };
