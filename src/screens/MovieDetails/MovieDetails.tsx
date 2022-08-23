@@ -65,124 +65,122 @@ export default function MovieDetails() {
         iconColor={theme.colors.secondary}
         iconSize={theme.spacing.ml}
       />
-      <ScrollView
-        style={styles.mainContainer}
-        showsVerticalScrollIndicator={false}>
-        {loading ? (
-          <Loader size="large" color={theme.colors.whiteColor} />
-        ) : (
-          <Box>
-            <ImageSlider url="/movie/" movieId={movieId} />
-            {details.homepage ? (
-              <Box
-                bg="secondary"
-                borderRadius={100}
-                p="sm"
-                ml="m"
-                mt="-ml"
-                alignItems="center"
-                width={45}>
-                <TouchableOpacity
-                  onPress={() => {
-                    Linking.openURL(details.homepage);
-                  }}>
-                  <Icon
-                    title="md-link-sharp"
-                    color={theme.colors.whiteColor}
-                    size={22}
+      <Box bg="primary" flex={1}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {loading ? (
+            <Loader size="large" color={theme.colors.whiteColor} />
+          ) : (
+            <Box>
+              <ImageSlider url="/movie/" movieId={movieId} />
+              {details.homepage ? (
+                <Box
+                  bg="secondary"
+                  borderRadius={100}
+                  p="sm"
+                  ml="m"
+                  mt="-ml"
+                  alignItems="center"
+                  width={45}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      Linking.openURL(details.homepage);
+                    }}>
+                    <Icon
+                      title="md-link-sharp"
+                      color={theme.colors.whiteColor}
+                      size={22}
+                    />
+                  </TouchableOpacity>
+                </Box>
+              ) : null}
+              <Box m="m">
+                <Box flexDirection="row">
+                  <Image
+                    source={{uri: `${IMAGE_POSTER_URL}${details.poster_path}`}}
+                    style={styles.posterImage}
                   />
-                </TouchableOpacity>
-              </Box>
-            ) : null}
-            <Box m="m">
-              <Box flexDirection="row">
-                <Image
-                  source={{uri: `${IMAGE_POSTER_URL}${details.poster_path}`}}
-                  style={styles.posterImage}
+                  <Box flex={1} ml="m" my="s">
+                    <ScrollView
+                      showsHorizontalScrollIndicator={false}
+                      horizontal>
+                      {getGenre()}
+                    </ScrollView>
+                    <Box flex={1} my="s">
+                      <Text variant="text_normal" fontSize={13}>
+                        {details.overview}
+                      </Text>
+                    </Box>
+                  </Box>
+                </Box>
+                <Divider color="whiteColor" height={1} my="m" />
+                <Box flexDirection="row" justifyContent="space-evenly">
+                  <Box alignItems="center">
+                    <Icon
+                      title="star"
+                      size={theme.spacing.l}
+                      color={theme.colors.secondary}
+                    />
+                    <Box mt="xxs" flexDirection="row" alignItems="center">
+                      <Text variant="subHeading">
+                        {details.vote_average.toFixed(1)}
+                      </Text>
+                      <Text variant="text_normal">/10</Text>
+                    </Box>
+                    <Text variant="title_sm">{details.vote_count}</Text>
+                  </Box>
+                  <Box alignItems="center">
+                    <Icon
+                      title="people"
+                      size={theme.spacing.l}
+                      color={theme.colors.secondary}
+                    />
+                    <Text mt="xxs" variant="subHeading">
+                      {details.popularity.toFixed(0)}
+                    </Text>
+                  </Box>
+                  <Box alignItems="center">
+                    <Icon
+                      title="timer"
+                      size={theme.spacing.l}
+                      color={theme.colors.secondary}
+                    />
+                    <Text mt="xxs" variant="subHeading">
+                      {details.runtime} mins.
+                    </Text>
+                  </Box>
+                </Box>
+                <Divider color="whiteColor" height={1} my="m" />
+                <PeopleList title="Cast" url={`/movie/${movieId}/credits`} />
+                <Divider color="whiteColor" height={1} my="m" />
+                <MoviesList
+                  title="More like this"
+                  url={`/movie/${movieId}/similar`}
                 />
-                <Box flex={1} ml="m" my="s">
-                  <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-                    {getGenre()}
-                  </ScrollView>
-                  <Box flex={1} my="s">
-                    <Text variant="text_normal" fontSize={13}>
-                      {details.overview}
-                    </Text>
-                  </Box>
-                </Box>
+                <Divider color="whiteColor" height={1} my="m" />
+                <Videos
+                  title="Teasers | Trailers"
+                  url={`/movie/${movieId}/videos`}
+                  imageSource={`${IMAGE_POSTER_URL}${details.backdrop_path}`}
+                />
+                <Divider color="whiteColor" height={1} my="m" />
+                <ReviewList
+                  title="User reviews"
+                  url={`/movie/${movieId}/reviews`}
+                />
+                <Divider color="whiteColor" height={1} my="m" />
+                <MoreAbout
+                  title={`More about "${details.title}"`}
+                  url={`/movie/${movieId}/external_ids`}
+                />
               </Box>
-              <Divider color="whiteColor" height={1} my="m" />
-              <Box flexDirection="row" justifyContent="space-evenly">
-                <Box alignItems="center">
-                  <Icon
-                    title="star"
-                    size={theme.spacing.l}
-                    color={theme.colors.secondary}
-                  />
-                  <Box mt="xxs" flexDirection="row" alignItems="center">
-                    <Text variant="subHeading">
-                      {details.vote_average.toFixed(1)}
-                    </Text>
-                    <Text variant="text_normal">/10</Text>
-                  </Box>
-                  <Text variant="title_sm">{details.vote_count}</Text>
-                </Box>
-                <Box alignItems="center">
-                  <Icon
-                    title="people"
-                    size={theme.spacing.l}
-                    color={theme.colors.secondary}
-                  />
-                  <Text mt="xxs" variant="subHeading">
-                    {details.popularity.toFixed(0)}
-                  </Text>
-                </Box>
-                <Box alignItems="center">
-                  <Icon
-                    title="timer"
-                    size={theme.spacing.l}
-                    color={theme.colors.secondary}
-                  />
-                  <Text mt="xxs" variant="subHeading">
-                    {details.runtime} mins.
-                  </Text>
-                </Box>
-              </Box>
-              <Divider color="whiteColor" height={1} my="m" />
-              <PeopleList title="Cast" url={`/movie/${movieId}/credits`} />
-              <Divider color="whiteColor" height={1} my="m" />
-              <MoviesList
-                title="More like this"
-                url={`/movie/${movieId}/similar`}
-              />
-              <Divider color="whiteColor" height={1} my="m" />
-              <Videos
-                title="Teasers | Trailers"
-                url={`/movie/${movieId}/videos`}
-                imageSource={`${IMAGE_POSTER_URL}${details.backdrop_path}`}
-              />
-              <Divider color="whiteColor" height={1} my="m" />
-              <ReviewList
-                title="User reviews"
-                url={`/movie/${movieId}/reviews`}
-              />
-              <Divider color="whiteColor" height={1} my="m" />
-              <MoreAbout
-                title={`More about "${details.title}"`}
-                url={`/movie/${movieId}/external_ids`}
-              />
             </Box>
-          </Box>
-        )}
-      </ScrollView>
+          )}
+        </ScrollView>
+      </Box>
     </Box>
   );
 }
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    backgroundColor: theme.colors.primary,
-  },
   posterImage: {width: 100, height: 170},
 });
