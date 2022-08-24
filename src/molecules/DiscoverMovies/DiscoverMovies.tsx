@@ -145,7 +145,7 @@ export default function DiscoverMovies(props: any) {
           </Box>
         </>
       ) : (
-        <Loader size="large" color={theme.colors.whiteColor} />
+        <Loader />
       )}
     </Box>
   );

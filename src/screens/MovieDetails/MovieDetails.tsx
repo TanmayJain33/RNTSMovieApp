@@ -68,7 +68,7 @@ export default function MovieDetails() {
       <Box bg="primary" flex={1}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {loading ? (
-            <Loader size="large" color={theme.colors.whiteColor} />
+            <Loader />
           ) : (
             <Box>
               <ImageSlider url="/movie/" movieId={movieId} />

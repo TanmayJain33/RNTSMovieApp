@@ -37,7 +37,7 @@ export default function SettingScreen() {
         mx="ml"
       />
       {loading ? (
-        <Loader size="large" color={theme.colors.whiteColor} />
+        <Loader />
       ) : (
         <Box mx="m">
           <Box flexDirection="row" alignItems="center">

@@ -23,7 +23,7 @@ export default function MoreAboutList(props: any) {
   return (
     <Box>
       {loading ? (
-        <Loader size="large" color={theme.colors.whiteColor} />
+        <Loader />
       ) : (
         <Box>
           <Text variant="subHeading" mb="m">

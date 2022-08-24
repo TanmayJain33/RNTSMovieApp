@@ -4,7 +4,6 @@ import Text from '../../atoms/Text/Text';
 import {FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 import {GET} from '../../services/API';
 import {Loader} from '../../atoms/Loader/Loader';
-import theme from '../../styles/theme';
 import VideoItem from '../VideoItem/VideoItem';
 import {useNavigation} from '@react-navigation/core';
 
@@ -41,7 +40,7 @@ export default function Videos(props: any) {
   return (
     <Box>
       {loading ? (
-        <Loader size="large" color={theme.colors.whiteColor} />
+        <Loader />
       ) : (
         <Box>
           <Text variant="subHeading" mb="m">

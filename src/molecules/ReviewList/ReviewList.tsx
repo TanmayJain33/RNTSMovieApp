@@ -53,7 +53,7 @@ export default function ReviewList(props: any) {
   return (
     <Box>
       {loading ? (
-        <Loader size="large" color={theme.colors.whiteColor} />
+        <Loader />
       ) : (
         reviewList.length !== 0 && (
           <>

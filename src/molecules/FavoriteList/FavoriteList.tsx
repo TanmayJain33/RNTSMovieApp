@@ -136,7 +136,7 @@ export default function FavoriteList(props: any) {
   return (
     <Box>
       {loading ? (
-        <Loader size="large" color={theme.colors.whiteColor} />
+        <Loader />
       ) : (
         <Box>
           <FlatList

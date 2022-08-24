@@ -70,7 +70,7 @@ export default function TVDetails() {
         style={styles.mainContainer}
         showsVerticalScrollIndicator={false}>
         {loading ? (
-          <Loader size="large" color={theme.colors.whiteColor} />
+          <Loader />
         ) : (
           <Box>
             <ImageSlider url="/tv/" movieId={TVId} />

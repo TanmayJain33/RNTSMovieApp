@@ -3,7 +3,6 @@ import {Image, StyleSheet} from 'react-native';
 import Box from '../../atoms/Box/Box';
 import {Loader} from '../../atoms/Loader/Loader';
 import {GET} from '../../services/API';
-import theme from '../../styles/theme';
 import {IMAGE_POSTER_URL} from '../../utilities/Config';
 import {screenWidth} from '../../utilities/Constants';
 import Swiper from 'react-native-swiper';
@@ -44,7 +43,7 @@ export default function ImageSlider(props: any) {
           ))}
         </Swiper>
       ) : (
-        <Loader size="large" color={theme.colors.whiteColor} />
+        <Loader />
       )}
     </Box>
   );

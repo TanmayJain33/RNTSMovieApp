@@ -1,12 +1,18 @@
 import React, {FC} from 'react';
 import {ActivityIndicator} from 'react-native';
-import {boxType} from '../Box/Box';
+import theme from '../../styles/theme';
+import {useSelector} from 'react-redux';
 
-type LoaderProps = React.ComponentProps<boxType> & {
-  size: any;
-  color: string | undefined;
-};
-
-export const Loader: FC<LoaderProps> = ({size, color}) => {
-  return <ActivityIndicator size={size} color={color} />;
+export const Loader: FC = () => {
+  const ThemeReducer = useSelector(({themeReducer}: any) => themeReducer);
+  return (
+    <ActivityIndicator
+      size="large"
+      color={
+        ThemeReducer.theme === true
+          ? theme.colors.whiteColor
+          : theme.colors.primary
+      }
+    />
+  );
 };

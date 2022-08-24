@@ -4,7 +4,6 @@ import Box from '../../atoms/Box/Box';
 import Text from '../../atoms/Text/Text';
 import {Loader} from '../../atoms/Loader/Loader';
 import {GET} from '../../services/API';
-import theme from '../../styles/theme';
 import {IMAGE_POSTER_URL} from '../../utilities/Config';
 import capitalizeName from '../../utilities/Capitalization';
 
@@ -46,7 +45,7 @@ export default function PeopleList(props: any) {
   return (
     <Box>
       {loading ? (
-        <Loader size="large" color={theme.colors.whiteColor} />
+        <Loader />
       ) : (
         <Box>
           <Text variant="subHeading" mb="m">
