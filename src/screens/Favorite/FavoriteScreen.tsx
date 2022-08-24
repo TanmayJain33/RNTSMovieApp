@@ -5,10 +5,13 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import FavMovies from '../FavMovies/FavMovies';
 import theme from '../../styles/theme';
 import FavTV from '../FavTV/FavTV';
+import {useSelector} from 'react-redux';
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function FavoriteScreen() {
+  const ThemeReducer = useSelector(({themeReducer}: any) => themeReducer);
+
   return (
     <Box flex={1} bg="primary">
       <Header
@@ -21,14 +24,24 @@ export default function FavoriteScreen() {
       <Tab.Navigator
         initialRouteName="FavMovies"
         screenOptions={{
-          tabBarActiveTintColor: theme.colors.whiteColor,
+          tabBarActiveTintColor: theme.colors.secondary,
           tabBarStyle: {
-            backgroundColor: theme.colors.primary,
+            backgroundColor:
+              ThemeReducer.theme === true
+                ? theme.colors.whiteColor
+                : theme.colors.primary,
             borderTopColor: theme.colors.secondary,
-            borderWidth: 1,
+            borderTopWidth: 3,
+          },
+          tabBarLabelStyle: {
+            fontSize: 12,
+            fontWeight: '700',
           },
           tabBarInactiveTintColor: theme.colors.lightGreyColor,
-          tabBarIndicatorStyle: {backgroundColor: theme.colors.whiteColor},
+          tabBarIndicatorStyle: {
+            backgroundColor: theme.colors.secondary,
+            height: 3,
+          },
         }}>
         <Tab.Screen
           name="FavMovies"

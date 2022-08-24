@@ -162,7 +162,6 @@ export default function MovieDetails() {
                   url={`/movie/${movieId}/videos`}
                   imageSource={`${IMAGE_POSTER_URL}${details.backdrop_path}`}
                 />
-                <Divider color="whiteColor" height={1} my="m" />
                 <ReviewList
                   title="User reviews"
                   url={`/movie/${movieId}/reviews`}

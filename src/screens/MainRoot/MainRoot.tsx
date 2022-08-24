@@ -6,21 +6,35 @@ import theme from '../../styles/theme';
 import {Icon} from '../../atoms/Icon/Icon';
 import MoviesScreen from '../MoviesScreen/MoviesScreen';
 import TVScreen from '../TVScreen/TVScreen';
+import {useSelector} from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 
 export default function MainRoot() {
+  const ThemeReducer = useSelector(({themeReducer}: any) => themeReducer);
+
   return (
     <Tab.Navigator
       initialRouteName="Movies"
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: theme.colors.secondary,
-        tabBarInactiveTintColor: theme.colors.primary,
+        tabBarInactiveTintColor:
+          ThemeReducer.theme === true
+            ? theme.colors.primary
+            : theme.colors.whiteColor,
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: '700',
           marginBottom: theme.spacing.xxs,
+        },
+        tabBarStyle: {
+          backgroundColor:
+            ThemeReducer.theme === true
+              ? theme.colors.whiteColor
+              : theme.colors.primary,
+          borderTopWidth: 3,
+          borderTopColor: theme.colors.secondary,
         },
       }}>
       <Tab.Screen

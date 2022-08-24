@@ -27,7 +27,7 @@ export default function ImageSlider(props: any) {
   }, [props.url, props.movieId]);
 
   return (
-    <Box height={250}>
+    <Box height={imageList.length > 0 ? 250 : 0}>
       {imageList.length > 0 ? (
         <Swiper
           autoplay={true}

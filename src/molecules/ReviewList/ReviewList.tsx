@@ -7,6 +7,7 @@ import {GET} from '../../services/API';
 import theme from '../../styles/theme';
 import capitalizeName from '../../utilities/Capitalization';
 import {Icon} from '../../atoms/Icon/Icon';
+import {Divider} from '../../atoms/Divider/Divider';
 
 export default function ReviewList(props: any) {
   const [loading, setLoading] = useState(true);
@@ -47,24 +48,30 @@ export default function ReviewList(props: any) {
       )
     );
   };
+  console.log(reviewList);
 
   return (
     <Box>
       {loading ? (
         <Loader size="large" color={theme.colors.whiteColor} />
       ) : (
-        <Box>
-          <Text variant="subHeading" mb="m">
-            {props.title}
-          </Text>
-          <FlatList
-            keyExtractor={item => item.id}
-            data={reviewList}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            renderItem={displayReviewList}
-          />
-        </Box>
+        reviewList.length !== 0 && (
+          <>
+            <Divider color="whiteColor" height={1} my="m" />
+            <Box>
+              <Text variant="subHeading" mb="m">
+                {props.title}
+              </Text>
+              <FlatList
+                keyExtractor={item => item.id}
+                data={reviewList}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                renderItem={displayReviewList}
+              />
+            </Box>
+          </>
+        )
       )}
     </Box>
   );

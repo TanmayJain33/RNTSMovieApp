@@ -9,13 +9,17 @@ import {GET} from '../../services/API';
 import theme from '../../styles/theme';
 import {IMAGE_POSTER_URL} from '../../utilities/Config';
 import {screenWidth} from '../../utilities/Constants';
+import {useSelector} from 'react-redux';
 
 export default function DiscoverMovies(props: any) {
   const [discoverMovies, setDiscoverMovies] = useState<any>([]);
   const [imageList, setImageList] = useState<any>([]);
   const [active, setActive] = useState(0);
+  const ThemeReducer = useSelector(({themeReducer}: any) => themeReducer);
 
   const navigation = useNavigation();
+
+  console.log(ThemeReducer.theme);
 
   useEffect(() => {
     const getDiscoverMovies = async () => {
@@ -96,7 +100,11 @@ export default function DiscoverMovies(props: any) {
                       <Icon
                         title="calendar"
                         size={theme.spacing.m}
-                        color={theme.colors.secondary}
+                        color={
+                          ThemeReducer.theme === true
+                            ? theme.colors.primary
+                            : theme.colors.whiteColor
+                        }
                       />
                       <Text variant="text_normal" color="primary" ml="xs">
                         {discoverMovies[index].release_date ||
