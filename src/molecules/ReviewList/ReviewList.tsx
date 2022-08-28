@@ -48,7 +48,6 @@ export default function ReviewList(props: any) {
       )
     );
   };
-  console.log(reviewList);
 
   return (
     <Box>

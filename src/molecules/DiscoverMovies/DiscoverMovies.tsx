@@ -19,8 +19,6 @@ export default function DiscoverMovies(props: any) {
 
   const navigation = useNavigation();
 
-  console.log(ThemeReducer.theme);
-
   useEffect(() => {
     const getDiscoverMovies = async () => {
       const imageData = await GET(props.url);
