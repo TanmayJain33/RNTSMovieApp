@@ -11,6 +11,7 @@ export default function MoviesScreen() {
   return (
     <Box flex={1} bg="primary">
       <Header
+        testID="moviesHeader"
         title="Movie Catch"
         justifyContent="space-between"
         alignItems="center"
