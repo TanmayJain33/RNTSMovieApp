@@ -23,19 +23,28 @@ export default function MoviesScreen() {
         iconColor={theme.colors.secondary}
         iconSize={theme.spacing.ml}
       />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView testID="movies" showsVerticalScrollIndicator={false}>
         <Box mb="m">
-          <DiscoverMovies url="/discover/movie" />
+          <DiscoverMovies url="/discover/movie" testID="discoverMovies" />
           <Box mx="m" mt="m">
-            <MoviesList title="Trending Movies" url="/trending/movie/week" />
+            <MoviesList
+              title="Trending Movies"
+              url="/trending/movie/week"
+              testID="trendingMovies"
+            />
             <Divider color="whiteColor" height={1} my="m" />
             <MoviesList
               title="Now Playing In India"
               url="/movie/now_playing"
               region="IN"
+              testID="nowPlayingMovies"
             />
             <Divider color="whiteColor" height={1} my="m" />
-            <MoviesList title="Top Rated" url="/movie/top_rated" />
+            <MoviesList
+              title="Top Rated"
+              url="/movie/top_rated"
+              testID="topRatedMovies"
+            />
           </Box>
         </Box>
       </ScrollView>

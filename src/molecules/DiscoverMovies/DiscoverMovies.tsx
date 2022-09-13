@@ -46,7 +46,7 @@ export default function DiscoverMovies(props: any) {
   };
 
   return (
-    <Box mb="m">
+    <Box mb="m" {...props}>
       {imageList.length > 0 ? (
         <>
           <ScrollView

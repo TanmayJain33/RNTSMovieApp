@@ -168,6 +168,7 @@ export default function MoviesList(props: any) {
             </Box>
             {props.tv ? (
               <TouchableOpacity
+                testID="tvFavoriteIcon"
                 onPress={() =>
                   tvExists(item)
                     ? postTVAsUnFavorite(moviesList[index].id)
@@ -181,6 +182,7 @@ export default function MoviesList(props: any) {
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
+                testID={'movieFavoriteIcon' + moviesList[index].id}
                 onPress={() =>
                   movieExists(item)
                     ? postMovieAsUnFavorite(moviesList[index].id)
@@ -200,7 +202,7 @@ export default function MoviesList(props: any) {
   };
 
   return (
-    <Box>
+    <Box {...props}>
       {loading ? (
         <Loader />
       ) : (
