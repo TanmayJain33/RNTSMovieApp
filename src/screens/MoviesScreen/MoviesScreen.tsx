@@ -25,24 +25,24 @@ export default function MoviesScreen() {
       />
       <ScrollView testID="movies" showsVerticalScrollIndicator={false}>
         <Box mb="m">
-          <DiscoverMovies url="/discover/movie" testID="discoverMovies" />
+          <DiscoverMovies testID="discoverMovies" />
           <Box mx="m" mt="m">
             <MoviesList
+              trending={true}
               title="Trending Movies"
-              url="/trending/movie/week"
               testID="trendingMovies"
             />
             <Divider color="whiteColor" height={1} my="m" />
             <MoviesList
+              nowPlaying={true}
               title="Now Playing In India"
-              url="/movie/now_playing"
               region="IN"
               testID="nowPlayingMovies"
             />
             <Divider color="whiteColor" height={1} my="m" />
             <MoviesList
               title="Top Rated"
-              url="/movie/top_rated"
+              rated={true}
               testID="topRatedMovies"
             />
           </Box>

@@ -9,19 +9,35 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {POSTER_IMAGE} from '../../utilities/Config';
-import {GET, GETFAVMOVIES, GETFAVTV, POSTFAV} from '../../services/API';
+import {GETFAVMOVIES, GETFAVTV, POSTFAV} from '../../services/API';
 import {Loader} from '../../atoms/Loader/Loader';
 import theme from '../../styles/theme';
 import {useNavigation} from '@react-navigation/native';
 import {Icon} from '../../atoms/Icon/Icon';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  getTrendingMovies,
+  getNowPlayingMovies,
+  getTopRatedMovies,
+} from '../../redux/actions/movies.action';
+import {
+  getTrendingTV,
+  getNowPlayingTV,
+  getTopRatedTV,
+} from '../../redux/actions/tv.action';
 
 export default function MoviesList(props: any) {
-  const [loading, setLoading] = useState(true);
-  const [moviesList, setMoviesList] = useState<any>([]);
   const [favMoviesData, setFavMoviesData] = useState<any>([]);
   const [favTVData, setFavTVData] = useState<any>([]);
+  const {trendingMovies, nowPlayingMovies, topRatedMovies} = useSelector(
+    (state: any) => state.moviesReducer,
+  );
+  const {trendingTV, nowPlayingTV, topRatedTV} = useSelector(
+    (state: any) => state.tvReducer,
+  );
 
   const navigation = useNavigation();
+  const dispatch: any = useDispatch();
 
   const getFavMovies = async () => {
     const favMovieData = await GETFAVMOVIES();
@@ -33,17 +49,38 @@ export default function MoviesList(props: any) {
     setFavTVData(favTvData.results);
   };
 
+  const fetchMovies = async () => {
+    await dispatch(getTrendingMovies());
+    await dispatch(getNowPlayingMovies());
+    await dispatch(getTopRatedMovies());
+    await getFavMovies();
+  };
+
+  const fetchTV = async () => {
+    await dispatch(getTrendingTV());
+    await dispatch(getNowPlayingTV());
+    await dispatch(getTopRatedTV());
+    await getFavTV();
+  };
+
   useEffect(() => {
-    const getMovies = async () => {
-      setLoading(true);
-      const moviesData = await GET(props.url, props.region);
-      setMoviesList(moviesData.results);
-      setLoading(false);
-    };
-    getMovies();
-    getFavMovies();
-    getFavTV();
-  }, [props.region, props.url]);
+    props.tv ? fetchTV() : fetchMovies();
+  }, []);
+
+  const moviesList =
+    props.trending == true
+      ? props.tv
+        ? trendingTV
+        : trendingMovies
+      : props.nowPlaying == true
+      ? props.region
+        ? nowPlayingMovies
+        : nowPlayingTV
+      : props.rated == true
+      ? props.tv
+        ? topRatedTV
+        : topRatedMovies
+      : '';
 
   const postMovieAsFavorite = async (movieId: any) => {
     const data = await POSTFAV(
@@ -203,7 +240,7 @@ export default function MoviesList(props: any) {
 
   return (
     <Box {...props}>
-      {loading ? (
+      {moviesList.length <= 0 ? (
         <Loader />
       ) : (
         <Box>
