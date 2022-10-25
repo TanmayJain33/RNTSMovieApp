@@ -8,19 +8,29 @@ import theme from '../../styles/theme';
 import capitalizeName from '../../utilities/Capitalization';
 import {Icon} from '../../atoms/Icon/Icon';
 import {Divider} from '../../atoms/Divider/Divider';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  getMovieReviews,
+  getTVReviews,
+} from '../../redux/actions/reviews.action';
 
 export default function ReviewList(props: any) {
-  const [loading, setLoading] = useState(true);
-  const [reviewList, setReviewList] = useState<any>([]);
+  const {movieReviews, tvReviews} = useSelector(
+    (state: any) => state.reviewsReducer,
+  );
+  const dispatch: any = useDispatch();
+
+  const fetchMovieReviews = async () => {
+    await dispatch(getMovieReviews(props.movieId));
+  };
+
+  const fetchTVReviews = async () => {
+    await dispatch(getTVReviews(props.TVId));
+  };
 
   useEffect(() => {
-    const getReviewList = async () => {
-      const reviewData = await GET(props.url);
-      setReviewList(reviewData.results);
-      setLoading(false);
-    };
-    getReviewList();
-  }, [props.url]);
+    props.movieId ? fetchMovieReviews() : fetchTVReviews();
+  }, []);
 
   const displayReviewList = ({item}: any) => {
     return (
@@ -42,7 +52,7 @@ export default function ReviewList(props: any) {
           <Text variant="text_normal">
             {item.content.length > 250
               ? `${item.content.replaceAll(/\s/g, ' ').slice(0, 250)}...`
-              : item.content.length}
+              : item.content}
           </Text>
         </Box>
       )
@@ -51,26 +61,24 @@ export default function ReviewList(props: any) {
 
   return (
     <Box>
-      {loading ? (
+      {movieReviews.length <= 0 && tvReviews.length <= 0 ? (
         <Loader />
       ) : (
-        reviewList.length !== 0 && (
-          <>
-            <Divider color="whiteColor" height={1} my="m" />
-            <Box>
-              <Text variant="subHeading" mb="m">
-                {props.title}
-              </Text>
-              <FlatList
-                keyExtractor={item => item.id}
-                data={reviewList}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                renderItem={displayReviewList}
-              />
-            </Box>
-          </>
-        )
+        <>
+          <Divider color="whiteColor" height={1} my="m" />
+          <Box>
+            <Text variant="subHeading" mb="m">
+              {props.title}
+            </Text>
+            <FlatList
+              keyExtractor={item => item.id}
+              data={props.movieId ? movieReviews : tvReviews}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              renderItem={displayReviewList}
+            />
+          </Box>
+        </>
       )}
     </Box>
   );

@@ -19,20 +19,21 @@ import {
   getTrendingMovies,
   getNowPlayingMovies,
   getTopRatedMovies,
+  getSimilarMovies,
 } from '../../redux/actions/movies.action';
 import {
   getTrendingTV,
   getNowPlayingTV,
   getTopRatedTV,
+  getSimilarTV,
 } from '../../redux/actions/tv.action';
 
 export default function MoviesList(props: any) {
   const [favMoviesData, setFavMoviesData] = useState<any>([]);
   const [favTVData, setFavTVData] = useState<any>([]);
-  const {trendingMovies, nowPlayingMovies, topRatedMovies} = useSelector(
-    (state: any) => state.moviesReducer,
-  );
-  const {trendingTV, nowPlayingTV, topRatedTV} = useSelector(
+  const {trendingMovies, nowPlayingMovies, topRatedMovies, similarMovies} =
+    useSelector((state: any) => state.moviesReducer);
+  const {trendingTV, nowPlayingTV, topRatedTV, similarTV} = useSelector(
     (state: any) => state.tvReducer,
   );
 
@@ -53,6 +54,7 @@ export default function MoviesList(props: any) {
     await dispatch(getTrendingMovies());
     await dispatch(getNowPlayingMovies());
     await dispatch(getTopRatedMovies());
+    await dispatch(getSimilarMovies(props.movieId));
     await getFavMovies();
   };
 
@@ -60,6 +62,7 @@ export default function MoviesList(props: any) {
     await dispatch(getTrendingTV());
     await dispatch(getNowPlayingTV());
     await dispatch(getTopRatedTV());
+    await dispatch(getSimilarTV(props.TVId));
     await getFavTV();
   };
 
@@ -80,6 +83,10 @@ export default function MoviesList(props: any) {
       ? props.tv
         ? topRatedTV
         : topRatedMovies
+      : props.movieId
+      ? similarMovies
+      : props.TVId
+      ? similarTV
       : '';
 
   const postMovieAsFavorite = async (movieId: any) => {

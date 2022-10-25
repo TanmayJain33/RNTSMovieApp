@@ -3,6 +3,9 @@ import {
   GET_TRENDING_TV,
   GET_NOW_PLAYING_TV,
   GET_TOP_RATED_TV,
+  GET_TV_DETAILS,
+  GET_TV_IMAGES,
+  GET_SIMILAR_TV,
 } from '../constants';
 
 const initialState = {
@@ -10,6 +13,9 @@ const initialState = {
   trendingTV: [],
   nowPlayingTV: [],
   topRatedTV: [],
+  tvDetails: [],
+  tvImages: [],
+  similarTV: [],
 };
 
 function tvReducer(state = initialState, action: any) {
@@ -22,6 +28,12 @@ function tvReducer(state = initialState, action: any) {
       return {...state, nowPlayingTV: action.payload};
     case GET_TOP_RATED_TV:
       return {...state, topRatedTV: action.payload};
+    case GET_TV_DETAILS:
+      return {...state, tvDetails: action.payload};
+    case GET_TV_IMAGES:
+      return {...state, tvImages: action.payload};
+    case GET_SIMILAR_TV:
+      return {...state, similarTV: action.payload};
     default:
       return state;
   }

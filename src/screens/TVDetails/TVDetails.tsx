@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import Box from '../../atoms/Box/Box';
 import Text from '../../atoms/Text/Text';
 import {
@@ -9,7 +9,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import {IMAGE_POSTER_URL} from '../../utilities/Config';
-import {GET} from '../../services/API';
 import {Loader} from '../../atoms/Loader/Loader';
 import {Icon} from '../../atoms/Icon/Icon';
 import {useRoute} from '@react-navigation/native';
@@ -22,24 +21,25 @@ import PeopleList from '../../molecules/PeopleList/PeopleList';
 import MoviesList from '../../molecules/MoviesList/MoviesList';
 import ReviewList from '../../molecules/ReviewList/ReviewList';
 import MoreAbout from '../../molecules/MoreAbout/MoreAbout';
+import {useSelector, useDispatch} from 'react-redux';
+import {getTVDetails} from '../../redux/actions/tv.action';
 
 export default function TVDetails() {
   const route = useRoute();
   const {TVId}: any = route.params;
-  const [loading, setLoading] = useState(true);
-  const [details, setDetails] = useState<any>([]);
+  const {tvDetails} = useSelector((state: any) => state.tvReducer);
+  const dispatch: any = useDispatch();
+
+  const fetchMovieDetails = async () => {
+    await dispatch(getTVDetails(TVId));
+  };
 
   useEffect(() => {
-    const getDetails = async () => {
-      const data = await GET(`/tv/${TVId}`);
-      setDetails(data);
-      setLoading(false);
-    };
-    getDetails();
-  }, [TVId]);
+    fetchMovieDetails();
+  }, []);
 
   const getGenre = () => {
-    return details.genres.map((genre: {name: string}) => (
+    return tvDetails.genres.map((genre: {name: string}) => (
       <Box
         borderWidth={1}
         borderRadius={5}
@@ -56,7 +56,7 @@ export default function TVDetails() {
   return (
     <Box flex={1} bg="primary">
       <Header
-        title={details.name}
+        title={tvDetails.name}
         alignItems="center"
         flexDirection="row"
         mb="sm"
@@ -69,12 +69,12 @@ export default function TVDetails() {
       <ScrollView
         style={styles.mainContainer}
         showsVerticalScrollIndicator={false}>
-        {loading ? (
+        {tvDetails.length <= 0 ? (
           <Loader />
         ) : (
           <Box>
-            <ImageSlider url="/tv/" movieId={TVId} />
-            {details.homepage ? (
+            <ImageSlider TVId={TVId} />
+            {tvDetails.homepage ? (
               <Box
                 bg="secondary"
                 borderRadius={100}
@@ -85,7 +85,7 @@ export default function TVDetails() {
                 width={45}>
                 <TouchableOpacity
                   onPress={() => {
-                    Linking.openURL(details.homepage);
+                    Linking.openURL(tvDetails.homepage);
                   }}>
                   <Icon
                     title="md-link-sharp"
@@ -98,7 +98,7 @@ export default function TVDetails() {
             <Box m="m">
               <Box flexDirection="row">
                 <Image
-                  source={{uri: `${IMAGE_POSTER_URL}${details.poster_path}`}}
+                  source={{uri: `${IMAGE_POSTER_URL}${tvDetails.poster_path}`}}
                   style={styles.posterImage}
                 />
                 <Box flex={1} ml="m" my="s">
@@ -107,7 +107,7 @@ export default function TVDetails() {
                   </ScrollView>
                   <Box flex={1} my="s">
                     <Text variant="text_normal" fontSize={13}>
-                      {details.overview}
+                      {tvDetails.overview}
                     </Text>
                   </Box>
                 </Box>
@@ -122,11 +122,11 @@ export default function TVDetails() {
                   />
                   <Box mt="xxs" flexDirection="row" alignItems="center">
                     <Text variant="subHeading">
-                      {details.vote_average.toFixed(1)}
+                      {tvDetails.vote_average.toFixed(1)}
                     </Text>
                     <Text variant="text_normal">/10</Text>
                   </Box>
-                  <Text variant="title_sm">{details.vote_count}</Text>
+                  <Text variant="title_sm">{tvDetails.vote_count}</Text>
                 </Box>
                 <Box alignItems="center">
                   <Icon
@@ -135,7 +135,7 @@ export default function TVDetails() {
                     color={theme.colors.secondary}
                   />
                   <Text mt="xxs" variant="subHeading">
-                    {details.popularity.toFixed(0)}
+                    {tvDetails.popularity.toFixed(0)}
                   </Text>
                 </Box>
                 <Box alignItems="center">
@@ -145,25 +145,26 @@ export default function TVDetails() {
                     color={theme.colors.secondary}
                   />
                   <Text mt="xxs" variant="subHeading">
-                    {details.episode_run_time} mins/episode
+                    {tvDetails.episode_run_time} mins/episode
                   </Text>
                 </Box>
               </Box>
               <Divider color="whiteColor" height={1} my="m" />
-              <PeopleList title="Cast" url={`/tv/${TVId}/credits`} />
+              <PeopleList title="Cast" TVId={TVId} />
               <Divider color="whiteColor" height={1} my="m" />
-              <MoviesList title="More like this" url={`/tv/${TVId}/similar`} />
+              <MoviesList title="More like this" TVId={TVId} tv={true} />
               <Divider color="whiteColor" height={1} my="m" />
               <Videos
                 title="Teasers | Trailers"
-                url={`/tv/${TVId}/videos`}
-                imageSource={`${IMAGE_POSTER_URL}${details.backdrop_path}`}
+                TVId={TVId}
+                imageSource={`${IMAGE_POSTER_URL}${tvDetails.backdrop_path}`}
               />
               <Divider color="whiteColor" height={1} my="m" />
-              <ReviewList title="User reviews" url={`/tv/${TVId}/reviews`} />
+              <ReviewList title="User reviews" TVId={TVId} />
               <Divider color="whiteColor" height={1} my="m" />
               <MoreAbout
-                title={`More about "${details.name}"`}
+                title={`More about "${tvDetails.name}"`}
+                TVId={TVId}
                 url={`/tv/${TVId}/external_ids`}
               />
             </Box>

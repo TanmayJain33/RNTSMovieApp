@@ -3,6 +3,9 @@ import {
   GET_TRENDING_MOVIES,
   GET_NOW_PLAYING_MOVIES,
   GET_TOP_RATED_MOVIES,
+  GET_MOVIE_DETAILS,
+  GET_MOVIE_IMAGES,
+  GET_SIMILAR_MOVIES,
 } from '../constants';
 
 const initialState = {
@@ -10,6 +13,8 @@ const initialState = {
   trendingMovies: [],
   nowPlayingMovies: [],
   topRatedMovies: [],
+  movieDetails: [],
+  similarMovies: [],
 };
 
 function moviesReducer(state = initialState, action: any) {
@@ -22,6 +27,12 @@ function moviesReducer(state = initialState, action: any) {
       return {...state, nowPlayingMovies: action.payload};
     case GET_TOP_RATED_MOVIES:
       return {...state, topRatedMovies: action.payload};
+    case GET_MOVIE_DETAILS:
+      return {...state, movieDetails: action.payload};
+    case GET_MOVIE_IMAGES:
+      return {...state, movieImages: action.payload};
+    case GET_SIMILAR_MOVIES:
+      return {...state, similarMovies: action.payload};
     default:
       return state;
   }

@@ -1,14 +1,5 @@
 import {API_KEY, BASE_URL, SESSION_ID} from '../utilities/Config';
 
-export const GET = async (url: any, region?: any) => {
-  const API_URL = region
-    ? `${BASE_URL}${url}?api_key=${API_KEY}&region=${region}`
-    : `${BASE_URL}${url}?api_key=${API_KEY}`;
-  const response = await fetch(API_URL, {method: 'GET'});
-  const responseJson = await response.json();
-  return responseJson;
-};
-
 export const GETDETAILS = async () => {
   const API_URL = `${BASE_URL}/account?api_key=${API_KEY}&session_id=${SESSION_ID}`;
   const response = await fetch(API_URL, {method: 'GET'});

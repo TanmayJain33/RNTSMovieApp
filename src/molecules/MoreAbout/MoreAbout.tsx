@@ -1,28 +1,32 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import Box from '../../atoms/Box/Box';
 import Text from '../../atoms/Text/Text';
 import {Loader} from '../../atoms/Loader/Loader';
-import {GET} from '../../services/API';
 import theme from '../../styles/theme';
 import {Icon} from '../../atoms/Icon/Icon';
 import {Linking, TouchableOpacity} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
+import {getMovieLinks, getTVLinks} from '../../redux/actions/links.action';
 
 export default function MoreAboutList(props: any) {
-  const [loading, setLoading] = useState(true);
-  const [linksList, setLinksList] = useState<any>({});
+  const {movieLinks, tvLinks} = useSelector((state: any) => state.linksReducer);
+  const dispatch: any = useDispatch();
+
+  const fetchMovieLinks = async () => {
+    await dispatch(getMovieLinks(props.movieId));
+  };
+
+  const fetchTVLinks = async () => {
+    await dispatch(getTVLinks(props.TVId));
+  };
 
   useEffect(() => {
-    const getLinksList = async () => {
-      const linkData = await GET(props.url);
-      setLinksList(linkData);
-      setLoading(false);
-    };
-    getLinksList();
-  }, [props.url]);
+    props.movieId ? fetchMovieLinks() : fetchTVLinks();
+  }, []);
 
   return (
     <Box>
-      {loading ? (
+      {movieLinks.length <= 0 && tvLinks.length <= 0 ? (
         <Loader />
       ) : (
         <Box>
@@ -32,7 +36,11 @@ export default function MoreAboutList(props: any) {
           <TouchableOpacity
             onPress={() => {
               Linking.openURL(
-                'https://www.facebook.com/' + linksList.facebook_id + '/',
+                'https://www.facebook.com/' +
+                  (props.movieId
+                    ? movieLinks.facebook_id
+                    : tvLinks.facebook_id) +
+                  '/',
               );
             }}>
             <Box
@@ -52,7 +60,9 @@ export default function MoreAboutList(props: any) {
           <TouchableOpacity
             onPress={() => {
               Linking.openURL(
-                'https://www.imdb.com/title/' + linksList.imdb_id + '/',
+                'https://www.imdb.com/title/' +
+                  (props.movieId ? movieLinks.imdb_id : tvLinks.imdb_id) +
+                  '/',
               );
             }}>
             <Box
@@ -72,7 +82,11 @@ export default function MoreAboutList(props: any) {
           <TouchableOpacity
             onPress={() => {
               Linking.openURL(
-                'https://www.instagram.com/' + linksList.instagram_id + '/',
+                'https://www.instagram.com/' +
+                  (props.movieId
+                    ? movieLinks.instagram_id
+                    : tvLinks.instagram_id) +
+                  '/',
               );
             }}>
             <Box
@@ -91,7 +105,10 @@ export default function MoreAboutList(props: any) {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              Linking.openURL('https://twitter.com/' + linksList.twitter_id);
+              Linking.openURL(
+                'https://twitter.com/' +
+                  (props.movieId ? movieLinks.twitter_id : tvLinks.twitter_id),
+              );
             }}>
             <Box
               flexDirection="row"

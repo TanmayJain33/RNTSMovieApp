@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import Box from '../../atoms/Box/Box';
 import Text from '../../atoms/Text/Text';
 import {
@@ -9,7 +9,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import {IMAGE_POSTER_URL} from '../../utilities/Config';
-import {GET} from '../../services/API';
 import {Loader} from '../../atoms/Loader/Loader';
 import {Icon} from '../../atoms/Icon/Icon';
 import {useRoute} from '@react-navigation/native';
@@ -22,24 +21,25 @@ import PeopleList from '../../molecules/PeopleList/PeopleList';
 import MoviesList from '../../molecules/MoviesList/MoviesList';
 import ReviewList from '../../molecules/ReviewList/ReviewList';
 import MoreAbout from '../../molecules/MoreAbout/MoreAbout';
+import {useSelector, useDispatch} from 'react-redux';
+import {getMovieDetails} from '../../redux/actions/movies.action';
 
 export default function MovieDetails() {
   const route = useRoute();
   const {movieId}: any = route.params;
-  const [loading, setLoading] = useState(true);
-  const [details, setDetails] = useState<any>([]);
+  const {movieDetails} = useSelector((state: any) => state.moviesReducer);
+  const dispatch: any = useDispatch();
+
+  const fetchMovieDetails = async () => {
+    await dispatch(getMovieDetails(movieId));
+  };
 
   useEffect(() => {
-    const getDetails = async () => {
-      const data = await GET(`/movie/${movieId}`);
-      setDetails(data);
-      setLoading(false);
-    };
-    getDetails();
-  }, [movieId]);
+    fetchMovieDetails();
+  }, []);
 
   const getGenre = () => {
-    return details.genres.map((genre: {name: string}) => (
+    return movieDetails.genres.map((genre: {name: string}) => (
       <Box
         borderWidth={1}
         borderRadius={5}
@@ -55,7 +55,7 @@ export default function MovieDetails() {
   return (
     <Box flex={1} bg="primary">
       <Header
-        title={details.title}
+        title={movieDetails.title}
         alignItems="center"
         flexDirection="row"
         mb="sm"
@@ -67,12 +67,12 @@ export default function MovieDetails() {
       />
       <Box bg="primary" flex={1}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {loading ? (
+          {movieDetails.length <= 0 ? (
             <Loader />
           ) : (
             <Box>
-              <ImageSlider url="/movie/" movieId={movieId} />
-              {details.homepage ? (
+              <ImageSlider movieId={movieId} />
+              {movieDetails.homepage ? (
                 <Box
                   bg="secondary"
                   borderRadius={100}
@@ -83,7 +83,7 @@ export default function MovieDetails() {
                   width={45}>
                   <TouchableOpacity
                     onPress={() => {
-                      Linking.openURL(details.homepage);
+                      Linking.openURL(movieDetails.homepage);
                     }}>
                     <Icon
                       title="md-link-sharp"
@@ -96,7 +96,9 @@ export default function MovieDetails() {
               <Box m="m">
                 <Box flexDirection="row">
                   <Image
-                    source={{uri: `${IMAGE_POSTER_URL}${details.poster_path}`}}
+                    source={{
+                      uri: `${IMAGE_POSTER_URL}${movieDetails.poster_path}`,
+                    }}
                     style={styles.posterImage}
                   />
                   <Box flex={1} ml="m" my="s">
@@ -107,7 +109,7 @@ export default function MovieDetails() {
                     </ScrollView>
                     <Box flex={1} my="s">
                       <Text variant="text_normal" fontSize={13}>
-                        {details.overview}
+                        {movieDetails.overview}
                       </Text>
                     </Box>
                   </Box>
@@ -122,11 +124,11 @@ export default function MovieDetails() {
                     />
                     <Box mt="xxs" flexDirection="row" alignItems="center">
                       <Text variant="subHeading">
-                        {details.vote_average.toFixed(1)}
+                        {movieDetails.vote_average.toFixed(1)}
                       </Text>
                       <Text variant="text_normal">/10</Text>
                     </Box>
-                    <Text variant="title_sm">{details.vote_count}</Text>
+                    <Text variant="title_sm">{movieDetails.vote_count}</Text>
                   </Box>
                   <Box alignItems="center">
                     <Icon
@@ -135,7 +137,7 @@ export default function MovieDetails() {
                       color={theme.colors.secondary}
                     />
                     <Text mt="xxs" variant="subHeading">
-                      {details.popularity.toFixed(0)}
+                      {movieDetails.popularity.toFixed(0)}
                     </Text>
                   </Box>
                   <Box alignItems="center">
@@ -145,31 +147,25 @@ export default function MovieDetails() {
                       color={theme.colors.secondary}
                     />
                     <Text mt="xxs" variant="subHeading">
-                      {details.runtime} mins.
+                      {movieDetails.runtime} mins.
                     </Text>
                   </Box>
                 </Box>
                 <Divider color="whiteColor" height={1} my="m" />
-                <PeopleList title="Cast" url={`/movie/${movieId}/credits`} />
+                <PeopleList title="Cast" movieId={movieId} />
                 <Divider color="whiteColor" height={1} my="m" />
-                <MoviesList
-                  title="More like this"
-                  url={`/movie/${movieId}/similar`}
-                />
+                <MoviesList movieId={movieId} title="More like this" />
                 <Divider color="whiteColor" height={1} my="m" />
                 <Videos
                   title="Teasers | Trailers"
-                  url={`/movie/${movieId}/videos`}
-                  imageSource={`${IMAGE_POSTER_URL}${details.backdrop_path}`}
+                  movieId={movieId}
+                  imageSource={`${IMAGE_POSTER_URL}${movieDetails.backdrop_path}`}
                 />
-                <ReviewList
-                  title="User reviews"
-                  url={`/movie/${movieId}/reviews`}
-                />
+                <ReviewList title="User reviews" movieId={movieId} />
                 <Divider color="whiteColor" height={1} my="m" />
                 <MoreAbout
-                  title={`More about "${details.title}"`}
-                  url={`/movie/${movieId}/external_ids`}
+                  title={`More about "${movieDetails.title}"`}
+                  movieId={movieId}
                 />
               </Box>
             </Box>

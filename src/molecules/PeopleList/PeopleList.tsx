@@ -1,24 +1,30 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Image, FlatList, StyleSheet} from 'react-native';
 import Box from '../../atoms/Box/Box';
 import Text from '../../atoms/Text/Text';
 import {Loader} from '../../atoms/Loader/Loader';
-import {GET} from '../../services/API';
 import {IMAGE_POSTER_URL} from '../../utilities/Config';
 import capitalizeName from '../../utilities/Capitalization';
+import {useSelector, useDispatch} from 'react-redux';
+import {getMoviePeople, getTVPeople} from '../../redux/actions/people.action';
 
 export default function PeopleList(props: any) {
-  const [loading, setLoading] = useState(true);
-  const [peopleList, setPeopleList] = useState<any>([]);
+  const {moviePeople, tvPeople} = useSelector(
+    (state: any) => state.peopleReducer,
+  );
+  const dispatch: any = useDispatch();
+
+  const fetchMoviePeople = async () => {
+    await dispatch(getMoviePeople(props.movieId));
+  };
+
+  const fetchTVPeople = async () => {
+    await dispatch(getTVPeople(props.TVId));
+  };
 
   useEffect(() => {
-    const getPeopleList = async () => {
-      const peopleData = await GET(props.url);
-      setPeopleList(peopleData.results || peopleData.cast);
-      setLoading(false);
-    };
-    getPeopleList();
-  }, [props.url]);
+    props.movieId ? fetchMoviePeople() : fetchTVPeople();
+  }, []);
 
   const displayPeopleList = ({item}: any) => {
     return (
@@ -44,7 +50,7 @@ export default function PeopleList(props: any) {
 
   return (
     <Box>
-      {loading ? (
+      {moviePeople.length <= 0 && tvPeople.length <= 0 ? (
         <Loader />
       ) : (
         <Box>
@@ -53,7 +59,7 @@ export default function PeopleList(props: any) {
           </Text>
           <FlatList
             keyExtractor={item => item.id}
-            data={peopleList}
+            data={props.movieId ? moviePeople : tvPeople}
             horizontal
             showsHorizontalScrollIndicator={false}
             renderItem={displayPeopleList}
