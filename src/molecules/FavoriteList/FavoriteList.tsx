@@ -1,71 +1,50 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import Box from '../../atoms/Box/Box';
 import Text from '../../atoms/Text/Text';
-import {
-  Alert,
-  FlatList,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {FlatList, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {POSTER_IMAGE} from '../../utilities/Config';
-import {GETFAVMOVIES, GETFAVTV, POSTFAV} from '../../services/API';
 import {Loader} from '../../atoms/Loader/Loader';
 import theme from '../../styles/theme';
 import {useNavigation} from '@react-navigation/native';
 import {Icon} from '../../atoms/Icon/Icon';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  getFavoriteMovies,
+  getFavoriteTV,
+  postMoviesAsUnFavorite,
+  postTVAsUnFavorite,
+} from '../../redux/actions/favorites.action';
 
 export default function FavoriteList(props: any) {
-  const [loading, setLoading] = useState(true);
-  const [favMoviesList, setFavMoviesList] = useState<any>([]);
-  const [favTVList, setFavTVList] = useState<any>([]);
+  const {favoriteMovies, favoriteTV} = useSelector(
+    (state: any) => state.favoritesReducer,
+  );
 
   const navigation = useNavigation();
+  const dispatch: any = useDispatch();
 
-  const getFavMovies = async () => {
-    setLoading(true);
-    const moviesData = await GETFAVMOVIES();
-    setFavMoviesList(moviesData.results);
-    setLoading(false);
+  const fetchFavoriteMovies = async () => {
+    await dispatch(getFavoriteMovies());
   };
 
-  const getFavTV = async () => {
-    setLoading(true);
-    const tvData = await GETFAVTV();
-    setFavTVList(tvData.results);
-    setLoading(false);
+  const fetchFavoriteTV = async () => {
+    await dispatch(getFavoriteTV());
+  };
+
+  const removeFavoriteMovieItem = async (id: any) => {
+    await dispatch(postMoviesAsUnFavorite(id));
+    await dispatch(getFavoriteMovies());
+  };
+
+  const removeFavoriteTVItem = async (id: any) => {
+    await dispatch(postTVAsUnFavorite(id));
+    await dispatch(getFavoriteTV());
   };
 
   useEffect(() => {
-    getFavMovies();
-    getFavTV();
+    fetchFavoriteMovies();
+    fetchFavoriteTV();
   }, []);
-
-  const postMovieAsUnFavorite = async (movieId: any) => {
-    const data = await POSTFAV(
-      '/account/{account_id}/favorite',
-      'movie',
-      movieId,
-      false,
-    );
-    if (data.success === true) {
-      Alert.alert('Removed from Favorites');
-      getFavMovies();
-    }
-  };
-
-  const postTVAsUnFavorite = async (tvId: any) => {
-    const data = await POSTFAV(
-      '/account/{account_id}/favorite',
-      'tv',
-      tvId,
-      false,
-    );
-    if (data.success === true) {
-      Alert.alert('Removed from Favorites');
-      getFavTV();
-    }
-  };
 
   const displayMovies = ({item, index}: any) => {
     return (
@@ -76,13 +55,13 @@ export default function FavoriteList(props: any) {
               ? navigation.navigate(
                   'TVDetails' as never,
                   {
-                    TVId: favTVList[index].id,
+                    TVId: favoriteTV[index].id,
                   } as never,
                 )
               : navigation.navigate(
                   'MovieDetails' as never,
                   {
-                    movieId: favMoviesList[index].id,
+                    movieId: favoriteMovies[index].id,
                   } as never,
                 );
           }}>
@@ -122,8 +101,8 @@ export default function FavoriteList(props: any) {
             <TouchableOpacity
               onPress={() => {
                 props.tv
-                  ? postTVAsUnFavorite(favTVList[index].id)
-                  : postMovieAsUnFavorite(favMoviesList[index].id);
+                  ? removeFavoriteTVItem(favoriteTV[index].id)
+                  : removeFavoriteMovieItem(favoriteMovies[index].id);
               }}>
               <Icon title="heart" color={theme.colors.secondary} size={20} />
             </TouchableOpacity>
@@ -135,13 +114,15 @@ export default function FavoriteList(props: any) {
 
   return (
     <Box>
-      {loading ? (
-        <Loader />
+      {favoriteMovies.length <= 0 && favoriteTV.length <= 0 ? (
+        <Box height="100%" alignSelf="center" justifyContent="center">
+          <Text variant="text_normal">No record found</Text>
+        </Box>
       ) : (
         <Box>
           <FlatList
             keyExtractor={item => item.id}
-            data={props.tv !== true ? favMoviesList : favTVList}
+            data={props.tv === true ? favoriteTV : favoriteMovies}
             renderItem={v => displayMovies(v)}
             numColumns={2}
           />

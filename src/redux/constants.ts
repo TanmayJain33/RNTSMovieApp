@@ -24,3 +24,8 @@ export const GET_TV_PEOPLE = 'GET_TV_PEOPLE';
 export const GET_TV_VIDEOS = 'GET_TV_VIDEOS';
 export const GET_TV_REVIEWS = 'GET_TV_REVIEWS';
 export const GET_TV_LINKS = 'GET_TV_LINKS';
+
+export const GET_FAVORITE_MOVIES = 'GET_FAVORITE_MOVIES';
+export const GET_FAVORITE_TV = 'GET_FAVORITE_TV';
+
+export const GET_USER_DETAILS = 'GET_USER_DETAILS';

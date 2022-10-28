@@ -6,6 +6,8 @@ import peopleReducer from './people.reducer';
 import videosReducer from './videos.reducer';
 import reviewsReducer from './reviews.reducer';
 import linksReducer from './links.reducer';
+import settingReducer from './setting.reducer';
+import favoritesReducer from './favorites.reducer';
 
 export default combineReducers({
   themeReducer,
@@ -15,4 +17,6 @@ export default combineReducers({
   videosReducer,
   reviewsReducer,
   linksReducer,
+  settingReducer,
+  favoritesReducer,
 });

@@ -1,15 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import Box from '../../atoms/Box/Box';
 import Text from '../../atoms/Text/Text';
-import {
-  Alert,
-  FlatList,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {FlatList, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {POSTER_IMAGE} from '../../utilities/Config';
-import {GETFAVMOVIES, GETFAVTV, POSTFAV} from '../../services/API';
 import {Loader} from '../../atoms/Loader/Loader';
 import theme from '../../styles/theme';
 import {useNavigation} from '@react-navigation/native';
@@ -27,27 +20,34 @@ import {
   getTopRatedTV,
   getSimilarTV,
 } from '../../redux/actions/tv.action';
+import {
+  getFavoriteMovies,
+  getFavoriteTV,
+  postMoviesAsFavorite,
+  postMoviesAsUnFavorite,
+  postTVAsFavorite,
+  postTVAsUnFavorite,
+} from '../../redux/actions/favorites.action';
 
 export default function MoviesList(props: any) {
-  const [favMoviesData, setFavMoviesData] = useState<any>([]);
-  const [favTVData, setFavTVData] = useState<any>([]);
   const {trendingMovies, nowPlayingMovies, topRatedMovies, similarMovies} =
     useSelector((state: any) => state.moviesReducer);
   const {trendingTV, nowPlayingTV, topRatedTV, similarTV} = useSelector(
     (state: any) => state.tvReducer,
   );
+  const {favoriteMovies, favoriteTV} = useSelector(
+    (state: any) => state.favoritesReducer,
+  );
 
   const navigation = useNavigation();
   const dispatch: any = useDispatch();
 
-  const getFavMovies = async () => {
-    const favMovieData = await GETFAVMOVIES();
-    setFavMoviesData(favMovieData.results);
+  const fetchFavoriteMovies = async () => {
+    await dispatch(getFavoriteMovies());
   };
 
-  const getFavTV = async () => {
-    const favTvData = await GETFAVTV();
-    setFavTVData(favTvData.results);
+  const fetchFavoriteTV = async () => {
+    await dispatch(getFavoriteTV());
   };
 
   const fetchMovies = async () => {
@@ -55,7 +55,7 @@ export default function MoviesList(props: any) {
     await dispatch(getNowPlayingMovies());
     await dispatch(getTopRatedMovies());
     await dispatch(getSimilarMovies(props.movieId));
-    await getFavMovies();
+    await fetchFavoriteMovies();
   };
 
   const fetchTV = async () => {
@@ -63,7 +63,7 @@ export default function MoviesList(props: any) {
     await dispatch(getNowPlayingTV());
     await dispatch(getTopRatedTV());
     await dispatch(getSimilarTV(props.TVId));
-    await getFavTV();
+    await fetchFavoriteTV();
   };
 
   useEffect(() => {
@@ -89,71 +89,39 @@ export default function MoviesList(props: any) {
       ? similarTV
       : '';
 
-  const postMovieAsFavorite = async (movieId: any) => {
-    const data = await POSTFAV(
-      '/account/{account_id}/favorite',
-      'movie',
-      movieId,
-      true,
-    );
-    if (data.success === true) {
-      Alert.alert('Added to Favorites');
-      getFavMovies();
-      getFavTV();
-    }
+  const addFavoriteMovieItem = async (id: any) => {
+    await dispatch(postMoviesAsFavorite(id));
+    await dispatch(getFavoriteMovies());
+    await dispatch(fetchMovies());
   };
 
-  const postMovieAsUnFavorite = async (movieId: any) => {
-    const data = await POSTFAV(
-      '/account/{account_id}/favorite',
-      'movie',
-      movieId,
-      false,
-    );
-    if (data.success === true) {
-      Alert.alert('Removed from Favorites');
-      getFavMovies();
-      getFavTV();
-    }
+  const addFavoriteTVItem = async (id: any) => {
+    await dispatch(postTVAsFavorite(id));
+    await dispatch(getFavoriteTV());
+    await dispatch(fetchTV());
   };
 
-  const postTVAsFavorite = async (tvId: any) => {
-    const data = await POSTFAV(
-      '/account/{account_id}/favorite',
-      'tv',
-      tvId,
-      true,
-    );
-    if (data.success === true) {
-      Alert.alert('Added to Favorites');
-      getFavMovies();
-      getFavTV();
-    }
+  const removeFavoriteMovieItem = async (id: any) => {
+    await dispatch(postMoviesAsUnFavorite(id));
+    await dispatch(getFavoriteMovies());
+    await dispatch(fetchMovies());
   };
 
-  const postTVAsUnFavorite = async (tvId: any) => {
-    const data = await POSTFAV(
-      '/account/{account_id}/favorite',
-      'tv',
-      tvId,
-      false,
-    );
-    if (data.success === true) {
-      Alert.alert('Removed from Favorites');
-      getFavMovies();
-      getFavTV();
-    }
+  const removeFavoriteTVItem = async (id: any) => {
+    await dispatch(postTVAsUnFavorite(id));
+    await dispatch(getFavoriteTV());
+    await dispatch(fetchTV());
   };
 
   const movieExists = (movie: any) => {
-    if (favMoviesData.filter((item: any) => item.id === movie.id).length > 0) {
+    if (favoriteMovies.filter((item: any) => item.id === movie.id).length > 0) {
       return true;
     }
     return false;
   };
 
   const tvExists = (tv: any) => {
-    if (favTVData.filter((item: any) => item.id === tv.id).length > 0) {
+    if (favoriteTV.filter((item: any) => item.id === tv.id).length > 0) {
       return true;
     }
     return false;
@@ -215,8 +183,8 @@ export default function MoviesList(props: any) {
                 testID="tvFavoriteIcon"
                 onPress={() =>
                   tvExists(item)
-                    ? postTVAsUnFavorite(moviesList[index].id)
-                    : postTVAsFavorite(moviesList[index].id)
+                    ? removeFavoriteTVItem(moviesList[index].id)
+                    : addFavoriteTVItem(moviesList[index].id)
                 }>
                 <Icon
                   title={tvExists(item) ? 'heart' : 'heart-outline'}
@@ -229,8 +197,8 @@ export default function MoviesList(props: any) {
                 testID={'movieFavoriteIcon' + moviesList[index].id}
                 onPress={() =>
                   movieExists(item)
-                    ? postMovieAsUnFavorite(moviesList[index].id)
-                    : postMovieAsFavorite(moviesList[index].id)
+                    ? removeFavoriteMovieItem(moviesList[index].id)
+                    : addFavoriteMovieItem(moviesList[index].id)
                 }>
                 <Icon
                   title={movieExists(item) ? 'heart' : 'heart-outline'}

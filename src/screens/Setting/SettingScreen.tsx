@@ -4,27 +4,24 @@ import Box from '../../atoms/Box/Box';
 import * as themeActions from '../../redux/actions/theme.action';
 import {useDispatch, useSelector} from 'react-redux';
 import {Header} from '../../atoms/Header/Header';
-import {GETDETAILS} from '../../services/API';
 import {Loader} from '../../atoms/Loader/Loader';
 import theme from '../../styles/theme';
 import {Icon} from '../../atoms/Icon/Icon';
 import Text from '../../atoms/Text/Text';
+import {getUserDetails} from '../../redux/actions/setting.action';
 
 export default function SettingScreen() {
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
   const ThemeReducer = useSelector(({themeReducer}: any) => themeReducer);
-  const [loading, setLoading] = useState(true);
+  const {userDetails} = useSelector((state: any) => state.settingReducer);
   const [isEnabled, setIsEnabled] = useState(true);
-  const [accountDetails, setAccountDetails] = useState<any>([]);
+
+  const fetchUserDetails = async () => {
+    await dispatch(getUserDetails());
+  };
 
   useEffect(() => {
-    const getAccountDetails = async () => {
-      setLoading(true);
-      const accountData = await GETDETAILS();
-      setAccountDetails(accountData);
-      setLoading(false);
-    };
-    getAccountDetails();
+    fetchUserDetails();
   }, []);
 
   return (
@@ -36,7 +33,7 @@ export default function SettingScreen() {
         mb="sm"
         mx="ml"
       />
-      {loading ? (
+      {userDetails === undefined ? (
         <Loader />
       ) : (
         <Box mx="m">
@@ -47,7 +44,7 @@ export default function SettingScreen() {
               color={theme.colors.secondary}
             />
             <Text variant="subHeading" ml="s">
-              {accountDetails.username}
+              {userDetails.username}
             </Text>
           </Box>
           <Box
