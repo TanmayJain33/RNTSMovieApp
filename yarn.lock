@@ -2249,6 +2249,11 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.4.tgz#cd667bcfdd025213aafb7ca5915a932590acdcdc"
   integrity sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==
 
+"@types/react-native-razorpay@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@types/react-native-razorpay/-/react-native-razorpay-2.2.0.tgz#7eef21d7e82007318d5fad4f1864978e0c60dd7b"
+  integrity sha512-/ByRrHh8+SvmaVl11LYc/hFDquF1UsO4BpSVCsccMNAKRR9rfg80s/6tQfZPTTlOPVjVlxp0PXKaf4BQya/9DA==
+
 "@types/react-native-vector-icons@^6.4.11":
   version "6.4.11"
   resolved "https://registry.yarnpkg.com/@types/react-native-vector-icons/-/react-native-vector-icons-6.4.11.tgz#8783d4248377aec14e06420397037b96ff242684"
@@ -7751,6 +7756,11 @@ react-native-pager-view@^5.4.25:
   version "5.4.25"
   resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.4.25.tgz#cd639d5387a7f3d5581b55a33c5faa1cbc200f97"
   integrity sha512-3drrYwaLat2fYszymZe3nHMPASJ4aJMaxiejfA1V5SK3OygYmdtmV2u5prX7TnjueJzGSyyaCYEr2JlrRt4YPg==
+
+react-native-razorpay@^2.2.9:
+  version "2.2.9"
+  resolved "https://registry.yarnpkg.com/react-native-razorpay/-/react-native-razorpay-2.2.9.tgz#895ba57084466ad89777c158edc56e9ceaad4999"
+  integrity sha512-88k38mW+XcENaJPfEN7qaOjMT2e8ueEcFTIGAov2H8h4+NnMlwQ1cjEHK0T5oixCJrekWBh2lpZAf2pVEUR84w==
 
 react-native-reanimated@^2.9.1:
   version "2.9.1"

@@ -3,7 +3,6 @@ import {FlatList} from 'react-native';
 import Box from '../../atoms/Box/Box';
 import Text from '../../atoms/Text/Text';
 import {Loader} from '../../atoms/Loader/Loader';
-import {GET} from '../../services/API';
 import theme from '../../styles/theme';
 import capitalizeName from '../../utilities/Capitalization';
 import {Icon} from '../../atoms/Icon/Icon';
@@ -33,6 +32,7 @@ export default function ReviewList(props: any) {
   }, []);
 
   const displayReviewList = ({item}: any) => {
+    console.log(item.content);
     return (
       item.author && (
         <Box width={300} height={200} mr="m">
@@ -51,7 +51,7 @@ export default function ReviewList(props: any) {
           </Box>
           <Text variant="text_normal">
             {item.content.length > 250
-              ? `${item.content.replaceAll(/\s/g, ' ').slice(0, 250)}...`
+              ? `${item.content.slice(0, 250).replace(/\s/g, ' ')}...`
               : item.content}
           </Text>
         </Box>
