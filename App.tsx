@@ -9,6 +9,7 @@ import MovieDetails from './src/screens/MovieDetails/MovieDetails';
 import VideoPlayer from './src/screens/VideoPlayer/VideoPlayer';
 import TVDetails from './src/screens/TVDetails/TVDetails';
 import {useSelector} from 'react-redux';
+import './src/utilities/IMLocalize';
 
 const Stack = createNativeStackNavigator();
 

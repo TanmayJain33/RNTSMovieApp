@@ -3,10 +3,10 @@ import {Alert} from 'react-native';
 import {API_KEY, BASE_URL, SESSION_ID} from '../../utilities/Config';
 import {GET_FAVORITE_MOVIES, GET_FAVORITE_TV} from '../constants';
 
-export const getFavoriteMovies = () => {
+export const getFavoriteMovies = (selectedLanguage: string) => {
   try {
     return async (dispatch: any) => {
-      const API_URL = `${BASE_URL}/account/{account_id}/favorite/movies?api_key=${API_KEY}&session_id=${SESSION_ID}`;
+      const API_URL = `${BASE_URL}/account/{account_id}/favorite/movies?api_key=${API_KEY}&session_id=${SESSION_ID}&language=${selectedLanguage}`;
       const res = await axios.get(API_URL);
       if (res.data.results) {
         dispatch({
@@ -20,7 +20,11 @@ export const getFavoriteMovies = () => {
   } catch (error) {}
 };
 
-export const postMoviesAsFavorite = (movieId: any) => {
+export const postMoviesAsFavorite = (
+  movieId: any,
+  text: string,
+  buttonText: string,
+) => {
   try {
     return async () => {
       const API_URL = `${BASE_URL}/account/{account_id}/favorite?api_key=${API_KEY}&session_id=${SESSION_ID}`;
@@ -37,7 +41,11 @@ export const postMoviesAsFavorite = (movieId: any) => {
         },
       );
       if (res.data.success) {
-        Alert.alert('Added to Favorites');
+        Alert.alert(text, '', [
+          {
+            text: buttonText,
+          },
+        ]);
       } else {
         console.log('Unable to fetch');
       }
@@ -45,7 +53,11 @@ export const postMoviesAsFavorite = (movieId: any) => {
   } catch (error) {}
 };
 
-export const postMoviesAsUnFavorite = (movieId: any) => {
+export const postMoviesAsUnFavorite = (
+  movieId: any,
+  text: string,
+  buttonText: string,
+) => {
   try {
     return async () => {
       const API_URL = `${BASE_URL}/account/{account_id}/favorite?api_key=${API_KEY}&session_id=${SESSION_ID}`;
@@ -62,7 +74,11 @@ export const postMoviesAsUnFavorite = (movieId: any) => {
         },
       );
       if (res.data.success) {
-        Alert.alert('Removed from Favorites');
+        Alert.alert(text, '', [
+          {
+            text: buttonText,
+          },
+        ]);
       } else {
         console.log('Unable to fetch');
       }
@@ -70,10 +86,10 @@ export const postMoviesAsUnFavorite = (movieId: any) => {
   } catch (error) {}
 };
 
-export const getFavoriteTV = () => {
+export const getFavoriteTV = (selectedLanguage: string) => {
   try {
     return async (dispatch: any) => {
-      const API_URL = `${BASE_URL}/account/{account_id}/favorite/tv?api_key=${API_KEY}&session_id=${SESSION_ID}`;
+      const API_URL = `${BASE_URL}/account/{account_id}/favorite/tv?api_key=${API_KEY}&session_id=${SESSION_ID}&language=${selectedLanguage}`;
       const res = await axios.get(API_URL);
       if (res.data.results) {
         dispatch({
@@ -87,7 +103,11 @@ export const getFavoriteTV = () => {
   } catch (error) {}
 };
 
-export const postTVAsFavorite = (TVId: any) => {
+export const postTVAsFavorite = (
+  TVId: any,
+  text: string,
+  buttonText: string,
+) => {
   try {
     return async () => {
       const API_URL = `${BASE_URL}/account/{account_id}/favorite?api_key=${API_KEY}&session_id=${SESSION_ID}`;
@@ -104,7 +124,11 @@ export const postTVAsFavorite = (TVId: any) => {
         },
       );
       if (res.data.success) {
-        Alert.alert('Added to Favorites');
+        Alert.alert(text, '', [
+          {
+            text: buttonText,
+          },
+        ]);
       } else {
         console.log('Unable to fetch');
       }
@@ -112,7 +136,11 @@ export const postTVAsFavorite = (TVId: any) => {
   } catch (error) {}
 };
 
-export const postTVAsUnFavorite = (TVId: any) => {
+export const postTVAsUnFavorite = (
+  TVId: any,
+  text: string,
+  buttonText: string,
+) => {
   try {
     return async () => {
       const API_URL = `${BASE_URL}/account/{account_id}/favorite?api_key=${API_KEY}&session_id=${SESSION_ID}`;
@@ -129,7 +157,11 @@ export const postTVAsUnFavorite = (TVId: any) => {
         },
       );
       if (res.data.success) {
-        Alert.alert('Removed from Favorites');
+        Alert.alert(text, '', [
+          {
+            text: buttonText,
+          },
+        ]);
       } else {
         console.log('Unable to fetch');
       }

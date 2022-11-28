@@ -21,8 +21,8 @@ export default function DiscoverMovies(props: any) {
   const navigation = useNavigation();
   const dispatch: any = useDispatch();
 
-  const fetchDiscoverMovies = () => dispatch(getDiscoverMovies());
-  const fetchDiscoverTV = () => dispatch(getDiscoverTV());
+  const fetchDiscoverMovies = () => dispatch(getDiscoverMovies(props.language));
+  const fetchDiscoverTV = () => dispatch(getDiscoverTV(props.language));
 
   useEffect(() => {
     props.tv ? fetchDiscoverTV() : fetchDiscoverMovies();

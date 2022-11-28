@@ -23,15 +23,23 @@ import ReviewList from '../../molecules/ReviewList/ReviewList';
 import MoreAbout from '../../molecules/MoreAbout/MoreAbout';
 import {useSelector, useDispatch} from 'react-redux';
 import {getTVDetails} from '../../redux/actions/tv.action';
+import {useTranslation} from 'react-i18next';
 
 export default function TVDetails() {
+  const {t, i18n} = useTranslation();
+  const selectedLanguage =
+    i18n.language === 'hi'
+      ? 'hi-IN'
+      : i18n.language === 'fr'
+      ? 'fr-FR'
+      : 'en-US';
   const route = useRoute();
   const {TVId}: any = route.params;
   const {tvDetails} = useSelector((state: any) => state.tvReducer);
   const dispatch: any = useDispatch();
 
   const fetchMovieDetails = async () => {
-    await dispatch(getTVDetails(TVId));
+    await dispatch(getTVDetails(TVId, selectedLanguage));
   };
 
   useEffect(() => {
@@ -105,11 +113,13 @@ export default function TVDetails() {
                   <ScrollView showsHorizontalScrollIndicator={false} horizontal>
                     {getGenre()}
                   </ScrollView>
-                  <Box flex={1} my="s">
-                    <Text variant="text_normal" fontSize={13}>
-                      {tvDetails.overview}
-                    </Text>
-                  </Box>
+                  {tvDetails.overview && (
+                    <Box flex={1} my="s">
+                      <Text variant="text_normal" fontSize={13}>
+                        {tvDetails.overview}
+                      </Text>
+                    </Box>
+                  )}
                 </Box>
               </Box>
               <Divider color="whiteColor" height={1} my="m" />
@@ -145,27 +155,39 @@ export default function TVDetails() {
                     color={theme.colors.secondary}
                   />
                   <Text mt="xxs" variant="subHeading">
-                    {tvDetails.episode_run_time} mins/episode
+                    {tvDetails.episode_run_time} {t('common:minutes_text')}/
+                    {t('common:episode_text')}
                   </Text>
                 </Box>
               </Box>
               <Divider color="whiteColor" height={1} my="m" />
-              <PeopleList title="Cast" TVId={TVId} />
+              <PeopleList title={t('common:cast_title')} TVId={TVId} />
               <Divider color="whiteColor" height={1} my="m" />
-              <MoviesList title="More like this" TVId={TVId} tv={true} />
-              <Divider color="whiteColor" height={1} my="m" />
-              <Videos
-                title="Teasers | Trailers"
+              <MoviesList
+                title={t('common:more_title')}
                 TVId={TVId}
+                tv={true}
+                language={selectedLanguage}
+              />
+              <Videos
+                title={t('common:videos_title')}
+                TVId={TVId}
+                language={selectedLanguage}
                 imageSource={`${IMAGE_POSTER_URL}${tvDetails.backdrop_path}`}
               />
-              <Divider color="whiteColor" height={1} my="m" />
-              <ReviewList title="User reviews" TVId={TVId} />
+              <ReviewList
+                title={t('common:reviews_title')}
+                TVId={TVId}
+                language={selectedLanguage}
+              />
               <Divider color="whiteColor" height={1} my="m" />
               <MoreAbout
-                title={`More about "${tvDetails.name}"`}
+                title={
+                  selectedLanguage === 'hi-IN'
+                    ? `"${tvDetails.name}" ${t('common:about_title')}`
+                    : `${t('common:about_title')} "${tvDetails.name}"`
+                }
                 TVId={TVId}
-                url={`/tv/${TVId}/external_ids`}
               />
             </Box>
           </Box>

@@ -6,16 +6,18 @@ import FavMovies from '../FavMovies/FavMovies';
 import theme from '../../styles/theme';
 import FavTV from '../FavTV/FavTV';
 import {useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function FavoriteScreen() {
   const ThemeReducer = useSelector(({themeReducer}: any) => themeReducer);
+  const {t} = useTranslation();
 
   return (
     <Box flex={1} bg="primary">
       <Header
-        title="Favorites"
+        title={t('common:favorites_title')}
         alignItems="center"
         flexDirection="row"
         mb="sm"
@@ -47,14 +49,14 @@ export default function FavoriteScreen() {
           name="FavMovies"
           component={FavMovies}
           options={{
-            tabBarLabel: 'Favorite Movies',
+            tabBarLabel: `${t('navigate:favorite_movies_tab_title')}`,
           }}
         />
         <Tab.Screen
           name="FavTV"
           component={FavTV}
           options={{
-            tabBarLabel: 'Favorite TV Shows',
+            tabBarLabel: `${t('navigate:favorite_tv_tab_title')}`,
           }}
         />
       </Tab.Navigator>

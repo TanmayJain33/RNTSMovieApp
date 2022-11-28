@@ -28,8 +28,10 @@ import {
   postTVAsFavorite,
   postTVAsUnFavorite,
 } from '../../redux/actions/favorites.action';
+import {useTranslation} from 'react-i18next';
 
 export default function MoviesList(props: any) {
+  const {t} = useTranslation();
   const {trendingMovies, nowPlayingMovies, topRatedMovies, similarMovies} =
     useSelector((state: any) => state.moviesReducer);
   const {trendingTV, nowPlayingTV, topRatedTV, similarTV} = useSelector(
@@ -43,26 +45,26 @@ export default function MoviesList(props: any) {
   const dispatch: any = useDispatch();
 
   const fetchFavoriteMovies = async () => {
-    await dispatch(getFavoriteMovies());
+    await dispatch(getFavoriteMovies(props.language));
   };
 
   const fetchFavoriteTV = async () => {
-    await dispatch(getFavoriteTV());
+    await dispatch(getFavoriteTV(props.language));
   };
 
   const fetchMovies = async () => {
-    await dispatch(getTrendingMovies());
-    await dispatch(getNowPlayingMovies());
-    await dispatch(getTopRatedMovies());
-    await dispatch(getSimilarMovies(props.movieId));
+    await dispatch(getTrendingMovies(props.language));
+    await dispatch(getNowPlayingMovies(props.language));
+    await dispatch(getTopRatedMovies(props.language));
+    await dispatch(getSimilarMovies(props.movieId, props.language));
     await fetchFavoriteMovies();
   };
 
   const fetchTV = async () => {
-    await dispatch(getTrendingTV());
-    await dispatch(getNowPlayingTV());
-    await dispatch(getTopRatedTV());
-    await dispatch(getSimilarTV(props.TVId));
+    await dispatch(getTrendingTV(props.language));
+    await dispatch(getNowPlayingTV(props.language));
+    await dispatch(getTopRatedTV(props.language));
+    await dispatch(getSimilarTV(props.TVId, props.language));
     await fetchFavoriteTV();
   };
 
@@ -90,26 +92,50 @@ export default function MoviesList(props: any) {
       : '';
 
   const addFavoriteMovieItem = async (id: any) => {
-    await dispatch(postMoviesAsFavorite(id));
-    await dispatch(getFavoriteMovies());
+    await dispatch(
+      postMoviesAsFavorite(
+        id,
+        t('common:add_favorite_item_text'),
+        t('common:ok_text'),
+      ),
+    );
+    await dispatch(getFavoriteMovies(props.language));
     await dispatch(fetchMovies());
   };
 
   const addFavoriteTVItem = async (id: any) => {
-    await dispatch(postTVAsFavorite(id));
-    await dispatch(getFavoriteTV());
+    await dispatch(
+      postTVAsFavorite(
+        id,
+        t('common:add_favorite_item_text'),
+        t('common:ok_text'),
+      ),
+    );
+    await dispatch(getFavoriteTV(props.language));
     await dispatch(fetchTV());
   };
 
   const removeFavoriteMovieItem = async (id: any) => {
-    await dispatch(postMoviesAsUnFavorite(id));
-    await dispatch(getFavoriteMovies());
+    await dispatch(
+      postMoviesAsUnFavorite(
+        id,
+        t('common:remove_favorite_item_text'),
+        t('common:ok_text'),
+      ),
+    );
+    await dispatch(getFavoriteMovies(props.language));
     await dispatch(fetchMovies());
   };
 
   const removeFavoriteTVItem = async (id: any) => {
-    await dispatch(postTVAsUnFavorite(id));
-    await dispatch(getFavoriteTV());
+    await dispatch(
+      postTVAsUnFavorite(
+        id,
+        t('common:remove_favorite_item_text'),
+        t('common:ok_text'),
+      ),
+    );
+    await dispatch(getFavoriteTV(props.language));
     await dispatch(fetchTV());
   };
 

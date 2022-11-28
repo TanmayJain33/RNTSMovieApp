@@ -23,15 +23,23 @@ import ReviewList from '../../molecules/ReviewList/ReviewList';
 import MoreAbout from '../../molecules/MoreAbout/MoreAbout';
 import {useSelector, useDispatch} from 'react-redux';
 import {getMovieDetails} from '../../redux/actions/movies.action';
+import {useTranslation} from 'react-i18next';
 
 export default function MovieDetails() {
+  const {t, i18n} = useTranslation();
+  const selectedLanguage =
+    i18n.language === 'hi'
+      ? 'hi-IN'
+      : i18n.language === 'fr'
+      ? 'fr-FR'
+      : 'en-US';
   const route = useRoute();
   const {movieId}: any = route.params;
   const {movieDetails} = useSelector((state: any) => state.moviesReducer);
   const dispatch: any = useDispatch();
 
   const fetchMovieDetails = async () => {
-    await dispatch(getMovieDetails(movieId));
+    await dispatch(getMovieDetails(movieId, selectedLanguage));
   };
 
   useEffect(() => {
@@ -41,6 +49,7 @@ export default function MovieDetails() {
   const getGenre = () => {
     return movieDetails.genres.map((genre: {name: string}) => (
       <Box
+        height={32}
         borderWidth={1}
         borderRadius={5}
         borderColor="whiteColor"
@@ -107,11 +116,13 @@ export default function MovieDetails() {
                       horizontal>
                       {getGenre()}
                     </ScrollView>
-                    <Box flex={1} my="s">
-                      <Text variant="text_normal" fontSize={13}>
-                        {movieDetails.overview}
-                      </Text>
-                    </Box>
+                    {movieDetails.overview && (
+                      <Box flex={1} my="s">
+                        <Text variant="text_normal" fontSize={13}>
+                          {movieDetails.overview}
+                        </Text>
+                      </Box>
+                    )}
                   </Box>
                 </Box>
                 <Divider color="whiteColor" height={1} my="m" />
@@ -147,24 +158,36 @@ export default function MovieDetails() {
                       color={theme.colors.secondary}
                     />
                     <Text mt="xxs" variant="subHeading">
-                      {movieDetails.runtime} mins.
+                      {movieDetails.runtime} {t('common:minutes_text')}
                     </Text>
                   </Box>
                 </Box>
                 <Divider color="whiteColor" height={1} my="m" />
-                <PeopleList title="Cast" movieId={movieId} />
+                <PeopleList title={t('common:cast_title')} movieId={movieId} />
                 <Divider color="whiteColor" height={1} my="m" />
-                <MoviesList movieId={movieId} title="More like this" />
-                <Divider color="whiteColor" height={1} my="m" />
-                <Videos
-                  title="Teasers | Trailers"
+                <MoviesList
                   movieId={movieId}
+                  title={t('common:more_title')}
+                  language={selectedLanguage}
+                />
+                <Videos
+                  title={t('common:videos_title')}
+                  movieId={movieId}
+                  language={selectedLanguage}
                   imageSource={`${IMAGE_POSTER_URL}${movieDetails.backdrop_path}`}
                 />
-                <ReviewList title="User reviews" movieId={movieId} />
+                <ReviewList
+                  title={t('common:reviews_title')}
+                  movieId={movieId}
+                  language={selectedLanguage}
+                />
                 <Divider color="whiteColor" height={1} my="m" />
                 <MoreAbout
-                  title={`More about "${movieDetails.title}"`}
+                  title={
+                    selectedLanguage === 'hi-IN'
+                      ? `"${movieDetails.title}" ${t('common:about_title')}`
+                      : `${t('common:about_title')} "${movieDetails.title}"`
+                  }
                   movieId={movieId}
                 />
               </Box>

@@ -7,11 +7,13 @@ import {Icon} from '../../atoms/Icon/Icon';
 import MoviesScreen from '../MoviesScreen/MoviesScreen';
 import TVScreen from '../TVScreen/TVScreen';
 import {useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 const Tab = createBottomTabNavigator();
 
 export default function MainRoot() {
   const ThemeReducer = useSelector(({themeReducer}: any) => themeReducer);
+  const {t} = useTranslation();
 
   return (
     <Tab.Navigator
@@ -41,7 +43,7 @@ export default function MainRoot() {
         name="MoviesScreen"
         component={MoviesScreen}
         options={{
-          tabBarLabel: 'Movies',
+          tabBarLabel: `${t('navigate:movies_tab_title')}`,
           unmountOnBlur: true,
           tabBarIcon: ({color}) => (
             <Icon title="film" size={theme.spacing.ml} color={color} />
@@ -52,7 +54,7 @@ export default function MainRoot() {
         name="TVScreen"
         component={TVScreen}
         options={{
-          tabBarLabel: 'TV',
+          tabBarLabel: `${t('navigate:tv_tab_title')}`,
           unmountOnBlur: true,
           tabBarIcon: ({color}) => (
             <Icon title="tv" size={theme.spacing.ml} color={color} />
@@ -63,7 +65,7 @@ export default function MainRoot() {
         name="FavoriteScreen"
         component={FavoriteScreen}
         options={{
-          tabBarLabel: 'Favorite',
+          tabBarLabel: `${t('navigate:favorite_tab_title')}`,
           unmountOnBlur: true,
           tabBarIcon: ({color}) => (
             <Icon title="heart" size={theme.spacing.ml} color={color} />
@@ -74,7 +76,7 @@ export default function MainRoot() {
         name="SettingScreen"
         component={SettingScreen}
         options={{
-          tabBarLabel: 'Settings',
+          tabBarLabel: `${t('navigate:setting_tab_title')}`,
           tabBarIcon: ({color}) => (
             <Icon title="settings" size={theme.spacing.ml} color={color} />
           ),

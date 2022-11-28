@@ -7,6 +7,7 @@ import VideoItem from '../VideoItem/VideoItem';
 import {useNavigation} from '@react-navigation/core';
 import {useSelector, useDispatch} from 'react-redux';
 import {getMovieVideos, getTVVideos} from '../../redux/actions/videos.action';
+import {Divider} from '../../atoms/Divider/Divider';
 
 export default function Videos(props: any) {
   const {movieVideos, tvVideos} = useSelector(
@@ -17,7 +18,7 @@ export default function Videos(props: any) {
   const navigation = useNavigation();
 
   const fetchMovieVideos = async () => {
-    await dispatch(getMovieVideos(props.movieId));
+    await dispatch(getMovieVideos(props.movieId, props.language));
   };
 
   const fetchTVVideos = async () => {
@@ -45,22 +46,23 @@ export default function Videos(props: any) {
 
   return (
     <Box>
-      {movieVideos.length <= 0 && tvVideos.length <= 0 ? (
-        <Loader />
-      ) : (
-        <Box>
-          <Text variant="subHeading" mb="m">
-            {props.title}
-          </Text>
-          <FlatList
-            keyExtractor={item => item.id}
-            style={styles.container}
-            data={props.movieId ? movieVideos : tvVideos}
-            numColumns={2}
-            showsHorizontalScrollIndicator={false}
-            renderItem={v => displayVideos(v)}
-          />
-        </Box>
+      {movieVideos.length <= 0 && tvVideos.length <= 0 ? null : (
+        <>
+          <Divider color="whiteColor" height={1} my="m" />
+          <Box>
+            <Text variant="subHeading" mb="m">
+              {props.title}
+            </Text>
+            <FlatList
+              keyExtractor={item => item.id}
+              style={styles.container}
+              data={props.movieId ? movieVideos : tvVideos}
+              numColumns={2}
+              showsHorizontalScrollIndicator={false}
+              renderItem={v => displayVideos(v)}
+            />
+          </Box>
+        </>
       )}
     </Box>
   );

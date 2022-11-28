@@ -20,7 +20,7 @@ export default function ReviewList(props: any) {
   const dispatch: any = useDispatch();
 
   const fetchMovieReviews = async () => {
-    await dispatch(getMovieReviews(props.movieId));
+    await dispatch(getMovieReviews(props.movieId, props.language));
   };
 
   const fetchTVReviews = async () => {
@@ -32,7 +32,6 @@ export default function ReviewList(props: any) {
   }, []);
 
   const displayReviewList = ({item}: any) => {
-    console.log(item.content);
     return (
       item.author && (
         <Box width={300} height={200} mr="m">
@@ -61,9 +60,7 @@ export default function ReviewList(props: any) {
 
   return (
     <Box>
-      {movieReviews.length <= 0 && tvReviews.length <= 0 ? (
-        <Loader />
-      ) : (
+      {movieReviews.length <= 0 && tvReviews.length <= 0 ? null : (
         <>
           <Divider color="whiteColor" height={1} my="m" />
           <Box>

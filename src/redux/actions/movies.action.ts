@@ -10,10 +10,10 @@ import {
   GET_SIMILAR_MOVIES,
 } from '../constants';
 
-export const getDiscoverMovies = () => {
+export const getDiscoverMovies = (language: string) => {
   try {
     return async (dispatch: any) => {
-      const API_URL = `${BASE_URL}/discover/movie?api_key=${API_KEY}`;
+      const API_URL = `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=${language}`;
       const res = await axios.get(API_URL);
       if (res.data.results) {
         dispatch({
@@ -27,10 +27,10 @@ export const getDiscoverMovies = () => {
   } catch (error) {}
 };
 
-export const getTrendingMovies = () => {
+export const getTrendingMovies = (language: string) => {
   try {
     return async (dispatch: any) => {
-      const API_URL = `${BASE_URL}/trending/movie/week?api_key=${API_KEY}`;
+      const API_URL = `${BASE_URL}/trending/movie/week?api_key=${API_KEY}&language=${language}`;
       const res = await axios.get(API_URL);
       if (res.data.results) {
         dispatch({
@@ -44,10 +44,10 @@ export const getTrendingMovies = () => {
   } catch (error) {}
 };
 
-export const getNowPlayingMovies = () => {
+export const getNowPlayingMovies = (language: string) => {
   try {
     return async (dispatch: any) => {
-      const API_URL = `${BASE_URL}/movie/now_playing?api_key=${API_KEY}&region=IN`;
+      const API_URL = `${BASE_URL}/movie/now_playing?api_key=${API_KEY}&region=IN&language=${language}`;
       const res = await axios.get(API_URL);
       if (res.data.results) {
         dispatch({
@@ -61,10 +61,10 @@ export const getNowPlayingMovies = () => {
   } catch (error) {}
 };
 
-export const getTopRatedMovies = () => {
+export const getTopRatedMovies = (language: string) => {
   try {
     return async (dispatch: any) => {
-      const API_URL = `${BASE_URL}/movie/top_rated?api_key=${API_KEY}`;
+      const API_URL = `${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=${language}`;
       const res = await axios.get(API_URL);
       if (res.data.results) {
         dispatch({
@@ -78,10 +78,10 @@ export const getTopRatedMovies = () => {
   } catch (error) {}
 };
 
-export const getSimilarMovies = (movieId: any) => {
+export const getSimilarMovies = (movieId: any, language: string) => {
   try {
     return async (dispatch: any) => {
-      const API_URL = `${BASE_URL}/movie/${movieId}/similar?api_key=${API_KEY}`;
+      const API_URL = `${BASE_URL}/movie/${movieId}/similar?api_key=${API_KEY}&language=${language}`;
       const res = await axios.get(API_URL);
       if (res.data.results) {
         dispatch({
@@ -95,10 +95,10 @@ export const getSimilarMovies = (movieId: any) => {
   } catch (error) {}
 };
 
-export const getMovieDetails = (movieId: any) => {
+export const getMovieDetails = (movieId: any, language: string) => {
   try {
     return async (dispatch: any) => {
-      const API_URL = `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}`;
+      const API_URL = `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&language=${language}`;
       const res = await axios.get(API_URL);
       if (res.data) {
         dispatch({

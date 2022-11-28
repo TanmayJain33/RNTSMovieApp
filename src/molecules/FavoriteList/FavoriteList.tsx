@@ -3,7 +3,6 @@ import Box from '../../atoms/Box/Box';
 import Text from '../../atoms/Text/Text';
 import {FlatList, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {POSTER_IMAGE} from '../../utilities/Config';
-import {Loader} from '../../atoms/Loader/Loader';
 import theme from '../../styles/theme';
 import {useNavigation} from '@react-navigation/native';
 import {Icon} from '../../atoms/Icon/Icon';
@@ -14,8 +13,17 @@ import {
   postMoviesAsUnFavorite,
   postTVAsUnFavorite,
 } from '../../redux/actions/favorites.action';
+import {useTranslation} from 'react-i18next';
 
 export default function FavoriteList(props: any) {
+  const {t, i18n} = useTranslation();
+  const selectedLanguage =
+    i18n.language === 'hi'
+      ? 'hi-IN'
+      : i18n.language === 'fr'
+      ? 'fr-FR'
+      : 'en-US';
+
   const {favoriteMovies, favoriteTV} = useSelector(
     (state: any) => state.favoritesReducer,
   );
@@ -24,21 +32,33 @@ export default function FavoriteList(props: any) {
   const dispatch: any = useDispatch();
 
   const fetchFavoriteMovies = async () => {
-    await dispatch(getFavoriteMovies());
+    await dispatch(getFavoriteMovies(selectedLanguage));
   };
 
   const fetchFavoriteTV = async () => {
-    await dispatch(getFavoriteTV());
+    await dispatch(getFavoriteTV(selectedLanguage));
   };
 
   const removeFavoriteMovieItem = async (id: any) => {
-    await dispatch(postMoviesAsUnFavorite(id));
-    await dispatch(getFavoriteMovies());
+    await dispatch(
+      postMoviesAsUnFavorite(
+        id,
+        t('common:remove_favorite_item_text'),
+        t('common:ok_text'),
+      ),
+    );
+    await dispatch(getFavoriteMovies(selectedLanguage));
   };
 
   const removeFavoriteTVItem = async (id: any) => {
-    await dispatch(postTVAsUnFavorite(id));
-    await dispatch(getFavoriteTV());
+    await dispatch(
+      postTVAsUnFavorite(
+        id,
+        t('common:remove_favorite_item_text'),
+        t('common:ok_text'),
+      ),
+    );
+    await dispatch(getFavoriteTV(selectedLanguage));
   };
 
   useEffect(() => {
@@ -116,7 +136,7 @@ export default function FavoriteList(props: any) {
     <Box>
       {favoriteMovies.length <= 0 && favoriteTV.length <= 0 ? (
         <Box height="100%" alignSelf="center" justifyContent="center">
-          <Text variant="text_normal">No record found</Text>
+          <Text variant="text_normal">{t('common:no_record_found_text')}</Text>
         </Box>
       ) : (
         <Box>

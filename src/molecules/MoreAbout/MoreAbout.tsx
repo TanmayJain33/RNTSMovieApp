@@ -7,8 +7,10 @@ import {Icon} from '../../atoms/Icon/Icon';
 import {Linking, TouchableOpacity} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {getMovieLinks, getTVLinks} from '../../redux/actions/links.action';
+import {useTranslation} from 'react-i18next';
 
 export default function MoreAboutList(props: any) {
+  const {t} = useTranslation();
   const {movieLinks, tvLinks} = useSelector((state: any) => state.linksReducer);
   const dispatch: any = useDispatch();
 
@@ -48,7 +50,7 @@ export default function MoreAboutList(props: any) {
               alignItems="center"
               justifyContent="space-between">
               <Text my="s" variant="text_normal" fontSize={16}>
-                View on Facebook
+                {t('common:facebook_text')}
               </Text>
               <Icon
                 title="open-outline"
@@ -70,7 +72,7 @@ export default function MoreAboutList(props: any) {
               alignItems="center"
               justifyContent="space-between">
               <Text my="s" variant="text_normal" fontSize={16}>
-                View on IMDb
+                {t('common:imdb_text')}
               </Text>
               <Icon
                 title="open-outline"
@@ -94,7 +96,7 @@ export default function MoreAboutList(props: any) {
               alignItems="center"
               justifyContent="space-between">
               <Text my="s" variant="text_normal" fontSize={16}>
-                View on Instagram
+                {t('common:instagram_text')}
               </Text>
               <Icon
                 title="open-outline"
@@ -115,7 +117,7 @@ export default function MoreAboutList(props: any) {
               alignItems="center"
               justifyContent="space-between">
               <Text my="s" variant="text_normal" fontSize={16}>
-                View on Twitter
+                {t('common:twitter_text')}
               </Text>
               <Icon
                 title="open-outline"

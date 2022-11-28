@@ -10,10 +10,10 @@ import {
   GET_SIMILAR_TV,
 } from '../constants';
 
-export const getDiscoverTV = () => {
+export const getDiscoverTV = (language: string) => {
   try {
     return async (dispatch: any) => {
-      const API_URL = `${BASE_URL}/discover/tv?api_key=${API_KEY}`;
+      const API_URL = `${BASE_URL}/discover/tv?api_key=${API_KEY}&language=${language}`;
       const res = await axios.get(API_URL);
       if (res.data.results) {
         dispatch({
@@ -27,10 +27,10 @@ export const getDiscoverTV = () => {
   } catch (error) {}
 };
 
-export const getTrendingTV = () => {
+export const getTrendingTV = (language: string) => {
   try {
     return async (dispatch: any) => {
-      const API_URL = `${BASE_URL}/trending/tv/week?api_key=${API_KEY}`;
+      const API_URL = `${BASE_URL}/trending/tv/week?api_key=${API_KEY}&language=${language}`;
       const res = await axios.get(API_URL);
       if (res.data.results) {
         dispatch({
@@ -44,10 +44,10 @@ export const getTrendingTV = () => {
   } catch (error) {}
 };
 
-export const getNowPlayingTV = () => {
+export const getNowPlayingTV = (language: string) => {
   try {
     return async (dispatch: any) => {
-      const API_URL = `${BASE_URL}/tv/on_the_air?api_key=${API_KEY}`;
+      const API_URL = `${BASE_URL}/tv/on_the_air?api_key=${API_KEY}&language=${language}`;
       const res = await axios.get(API_URL);
       if (res.data.results) {
         dispatch({
@@ -61,10 +61,10 @@ export const getNowPlayingTV = () => {
   } catch (error) {}
 };
 
-export const getTopRatedTV = () => {
+export const getTopRatedTV = (language: string) => {
   try {
     return async (dispatch: any) => {
-      const API_URL = `${BASE_URL}/tv/top_rated?api_key=${API_KEY}`;
+      const API_URL = `${BASE_URL}/tv/top_rated?api_key=${API_KEY}&language=${language}`;
       const res = await axios.get(API_URL);
       if (res.data.results) {
         dispatch({
@@ -78,10 +78,10 @@ export const getTopRatedTV = () => {
   } catch (error) {}
 };
 
-export const getSimilarTV = (tvId: any) => {
+export const getSimilarTV = (tvId: any, language: string) => {
   try {
     return async (dispatch: any) => {
-      const API_URL = `${BASE_URL}/tv/${tvId}/similar?api_key=${API_KEY}`;
+      const API_URL = `${BASE_URL}/tv/${tvId}/similar?api_key=${API_KEY}&language=${language}`;
       const res = await axios.get(API_URL);
       if (res.data.results) {
         dispatch({
@@ -95,10 +95,10 @@ export const getSimilarTV = (tvId: any) => {
   } catch (error) {}
 };
 
-export const getTVDetails = (tvId: any) => {
+export const getTVDetails = (tvId: any, language: string) => {
   try {
     return async (dispatch: any) => {
-      const API_URL = `${BASE_URL}/tv/${tvId}?api_key=${API_KEY}`;
+      const API_URL = `${BASE_URL}/tv/${tvId}?api_key=${API_KEY}&language=${language}`;
       const res = await axios.get(API_URL);
       if (res.data) {
         dispatch({
